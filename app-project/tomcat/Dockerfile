@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 # Копіюємо файли проекту до робочої директорії
-COPY /app-project .
+COPY . .
 
 # Збираємо проект за допомогою Maven
 RUN mvn clean package
@@ -23,7 +23,7 @@ RUN mvn clean package
 RUN cp target/*.war /usr/local/tomcat/webapps/ROOT.war
 
 # Копіюємо конфігурацію Tomcat
-COPY ./app-project/tomcat/ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
+COPY ./tomcat/ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
 
 # Вказуємо порт, який буде використовувати контейнер
 EXPOSE 8080
