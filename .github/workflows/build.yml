@@ -22,4 +22,5 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file ./app-project/tomcat/Dockerfile --tag master-work-app:latest
     - name: Push to Dockerhub  
-      run: docker push master-work-app:latest
+      run: docker push forelock/master-work-app:latest
+
