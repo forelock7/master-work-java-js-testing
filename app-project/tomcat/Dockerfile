@@ -23,7 +23,7 @@ RUN mvn clean package
 RUN cp target/*.war /usr/local/tomcat/webapps/ROOT.war
 
 # Копіюємо конфігурацію Tomcat
-COPY ./tomcat/ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
+COPY ./app-project/tomcat/ROOT.xml /usr/local/tomcat/conf/Catalina/localhost/
 
 # Вказуємо порт, який буде використовувати контейнер
 EXPOSE 8080
