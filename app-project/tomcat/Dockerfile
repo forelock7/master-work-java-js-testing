@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /usr/src/app
 
 # Копіюємо файли проекту до робочої директорії
-COPY . .
+COPY ../ .
 
 # Збираємо проект за допомогою Maven
 RUN mvn clean package
