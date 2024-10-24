@@ -38,15 +38,6 @@ jobs:
     - name: Delete old DB docker container
       run: sudo docker rm -f master-work-db-container || true
     - name: Run DB docker container
-      run: sudo docker run -d --restart always \
-        -p 5432:5432 \
-        --name master-work-db-container \
-        --network local \
-        -v /home/ubuntu/master-work-app/db/data:/var/lib/postgresql/data \
-        forelock/master-work-db
+      run: sudo docker run -d --restart always -p 5432:5432 --name master-work-db-container --network local -v /home/ubuntu/master-work-app/db/data:/var/lib/postgresql/data forelock/master-work-db
     - name: Run Adminer docker container
-      run: sudo docker run -d --restart always \
-        -p 8081:8080 \
-        --name master-work-adminer-container \
-        --network local \
-        adminer:4.8.1
+      run: sudo docker run -d --restart always -p 8081:8080 --name master-work-adminer-container --network local adminer:4.8.1
