@@ -66,8 +66,10 @@ jobs:
         sudo docker run -d --restart always -p 8080:8080 -p 5005:5005 --name master-work-app-container --network local forelock/master-work-app
 
   playwright-tests:
+    needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/setup-node@v4
         with:
