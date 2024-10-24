@@ -19,8 +19,12 @@ jobs:
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: Build the Docker image
+    - name: Build DB Docker image
+      run: docker build ./app-project --file ./app-project/db/Dockerfile --tag forelock/master-work-db:latest
+    - name: Build App Docker image
       run: docker build ./app-project --file ./app-project/tomcat/Dockerfile --tag forelock/master-work-app:latest
-    - name: Push to Dockerhub  
+    - name: Push DB image to Dockerhub  
+      run: docker push forelock/master-work-db:latest
+    - name: Push App image to Dockerhub  
       run: docker push forelock/master-work-app:latest
 
