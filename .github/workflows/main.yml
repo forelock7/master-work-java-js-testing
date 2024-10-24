@@ -99,7 +99,7 @@ jobs:
         env:
           HOST: ${{secrets.TEST_HOST}}
           USERNAME: ${{secrets.ADMIN_USERNAME}}
-          PASSWORD: ${{secrets.ADMIN_USERNAME}}
+          PASSWORD: ${{secrets.ADMIN_PASSWORD}}
         run: npx playwright test
         working-directory: playwright-project
       - uses: actions/upload-artifact@v4

@@ -10,8 +10,8 @@ import {defineConfig, devices, ReporterDescription} from '@playwright/test';
 // Set report types which will be used for test
 function getReports(): ReporterDescription[] {
     return [
-        ['html', { outputFolder: 'reports/html-report', open: 'on-failure' }],
-        ['junit', { outputFile: 'reports/junit/results.xml' }],
+        ['html', { outputFolder: 'playwright-report/html-report', open: 'on-failure' }],
+        ['junit', { outputFile: 'playwright-report/junit/results.xml' }],
         ['./src/reporting/logReporting.ts'],
     ];
 }
