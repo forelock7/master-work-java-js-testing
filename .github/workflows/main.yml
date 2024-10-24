@@ -38,13 +38,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Cache Docker layers
-      uses: actions/cache@v4
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-docker-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-docker-
+    - name: Clean up Docker to free up space
+      run: sudo docker system prune -af
     - name: Ensure Docker network created
       run: |
         if [ ! "$(sudo docker network ls --filter name=^local$ --format='{{.Name}}')" ]; then
