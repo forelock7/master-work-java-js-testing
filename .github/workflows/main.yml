@@ -45,4 +45,17 @@ jobs:
         sudo docker rm -f master-work-db-container || true
         sudo docker run -d --restart always -p 5432:5432 --name master-work-db-container --network local -v /home/ubuntu/master-work-app/db/data:/var/lib/postgresql/data forelock/master-work-db
     - name: Run Adminer docker container
-      run: sudo docker run -d --restart always -p 8081:8080 --name master-work-adminer-container --network local adminer:4.8.1
+      run: |
+        # Check if the container exists
+        if [ "$(sudo docker ps -q -f name=master-work-adminer-container)" ]; then
+          echo "Container 'master-work-adminer-container' is already running."
+        else
+          # Check if the container exists but is stopped, and start it
+          if [ "$(sudo docker ps -aq -f name=master-work-adminer-container)" ]; then
+            echo "Deleting existing container 'master-work-adminer-container'..."
+            sudo docker delete master-work-adminer-container
+          fi
+          # If the container does not exist, create and start it
+          echo "Creating and starting new container 'master-work-adminer-container'..."
+          sudo docker run -d --restart always -p 8081:8080 --name master-work-adminer-container --network local adminer:4.8.1
+        fi
