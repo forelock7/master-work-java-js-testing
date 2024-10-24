@@ -1,4 +1,4 @@
-import {defineConfig, devices, ReporterDescription} from '@playwright/test';
+import { defineConfig, devices, ReporterDescription } from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -37,7 +37,12 @@ export default defineConfig({
         // baseURL: 'http://127.0.0.1:3000',
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on-first-retry',
+        trace: {
+            mode: 'retain-on-failure',
+            snapshots: true,
+            screenshots: true,
+            sources: true,
+        },
     },
 
     /* Configure projects for major browsers */
