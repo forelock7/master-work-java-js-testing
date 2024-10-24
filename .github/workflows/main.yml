@@ -59,3 +59,9 @@ jobs:
           echo "Creating and starting new container 'master-work-adminer-container'..."
           sudo docker run -d --restart always -p 8081:8080 --name master-work-adminer-container --network local adminer:4.8.1
         fi
+    - name: Run new App docker container
+      run: |
+        sudo docker pull forelock/master-work-app
+        sudo docker rm -f master-work-app-container || true
+        sudo docker run -d --restart always -p 8080:8080 -p 5005:5005 --name master-work-app-container --network local forelock/master-work-app
+
