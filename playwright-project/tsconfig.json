@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "tests/**/*", "tests-k6/**/*.ts"],
+  "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "ES2019",
@@ -16,8 +16,8 @@
     "rootDirs": ["src", "tests"],
     "baseUrl": ".",
     "paths": {
-      "@controllers/*": ["src/api/controllers/*"],
-      "@models/*": ["src/api/models/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@models/*": ["src/models/*"],
       "@config/*": ["src/config/*"],
       "@constants/*": ["src/constants/*"],
       "@fixtures/*": ["src/fixtures/*"],
