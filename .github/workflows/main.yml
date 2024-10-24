@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Create network
-      run: docker network create --driver bridge local
+      run: sudo docker network create --driver bridge local
     - name: Pull DB docker image
       run: sudo docker pull forelock/master-work-db
     - name: Delete old DB docker container
