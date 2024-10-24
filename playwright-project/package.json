@@ -3,12 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npx tsc --project tsconfig.json --noEmit",
+    "lint": "eslint --quiet",
+    "prepare": "husky install",
+    "typedoc": "typedoc --out docs src/steps scr/utils --entryPointStrategy Expand",
+    "report": "npx playwright show-report reports\\html-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.48.1",
-    "@types/node": "^22.7.9"
+    "@eslint/js": "^9.13.0",
+    "@playwright/test": "1.48.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.7.9",
+    "eslint": "^9.13.0",
+    "prettier": "3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
   }
 }

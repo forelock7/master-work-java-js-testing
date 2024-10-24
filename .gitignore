@@ -45,3 +45,5 @@ node_modules/
 /playwright/.cache/
 /playwright-project/test-results/.last-run.json
 /playwright-project/playwright-report/index.html
+/playwright-project/dist/
+/playwright-project/test-results/
