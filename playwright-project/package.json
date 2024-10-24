@@ -8,7 +8,6 @@
     "format:check": "prettier --check .",
     "typecheck": "npx tsc --project tsconfig.json --noEmit",
     "lint": "eslint --quiet",
-    "prepare": "husky install",
     "typedoc": "typedoc --out docs src/steps scr/utils --entryPointStrategy Expand",
     "report": "npx playwright show-report reports\\html-report"
   },
