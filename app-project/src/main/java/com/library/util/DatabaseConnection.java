@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:postgresql://postgres:5432/mydb";
+    private static final String URL = "jdbc:postgresql://master-work-db-container:5432/mydb";
     private static final String USER = "admin";
     private static final String PASSWORD = "admin";
 

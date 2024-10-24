@@ -15,7 +15,7 @@ services:
       - postgres
     networks:
       - local
-  postgres:
+  master-work-db-container:
     build:
       dockerfile: ./Dockerfile
       context: ./db
