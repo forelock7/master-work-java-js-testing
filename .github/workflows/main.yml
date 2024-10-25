@@ -117,7 +117,6 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-      - run: java HelloWorldApp.java
 
       - uses: browser-actions/setup-chrome@latest
       - run: chrome --version
