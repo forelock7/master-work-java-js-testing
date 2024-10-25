@@ -25,16 +25,23 @@ public class BooksUiTest {
 
     @BeforeMethod
     public void setUp() {
+        String host = System.getenv("HOST");
+        String username = System.getenv("USERNAME");
+        String password = System.getenv("PASSWORD");
+        String baseUrl = "http://" + host + ":8080";
+        boolean isHeadless = Boolean.parseBoolean(System.getenv("IS_HEADLESS"));
+
         ChromeOptions options = new ChromeOptions();
         // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
+        if (isHeadless) options.addArguments("--headless=new");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.get("http://localhost:8080/");
+        driver.get(baseUrl);
 
         loginPageSteps = new LoginPageSteps(driver);
-        userContext = new UserContext("vova@gmail.com", "1234");
+        userContext = new UserContext(username, password);
     }
 
     @AfterMethod

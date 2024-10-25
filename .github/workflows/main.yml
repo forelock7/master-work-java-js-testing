@@ -9,6 +9,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.TEST_HOST}}
+      USERNAME: ${{secrets.ADMIN_USERNAME}}
+      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      IS_HEADLESS: true
 
     steps:
     - uses: actions/checkout@v4
@@ -20,9 +27,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-docker-
     - name: Login Dockerhub
-      env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build DB Docker image
       run: docker build ./app-project --file ./app-project/db/Dockerfile --tag forelock/master-work-db:latest
@@ -91,10 +95,6 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: playwright-project
       - name: Run Playwright tests
-        env:
-          HOST: ${{secrets.TEST_HOST}}
-          USERNAME: ${{secrets.ADMIN_USERNAME}}
-          PASSWORD: ${{secrets.ADMIN_PASSWORD}}
         run: npx playwright test
         working-directory: playwright-project
       - uses: actions/upload-artifact@v4
