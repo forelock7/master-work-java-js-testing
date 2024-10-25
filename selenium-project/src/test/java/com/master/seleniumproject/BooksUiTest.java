@@ -8,10 +8,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 
 import static org.testng.Assert.assertEquals;
@@ -24,18 +27,23 @@ public class BooksUiTest {
     private UserContext userContext;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws MalformedURLException {
         String host = System.getenv("HOST");
         String username = System.getenv("USERNAME");
         String password = System.getenv("PASSWORD");
         String baseUrl = "http://" + host + ":8080";
         boolean isHeadless = Boolean.parseBoolean(System.getenv("IS_HEADLESS"));
+        boolean isRemote = Boolean.parseBoolean(System.getenv("IS_REMOTE"));
 
         ChromeOptions options = new ChromeOptions();
         // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
         if (isHeadless) options.addArguments("--headless=new");
-        driver = new ChromeDriver(options);
+        if (isRemote) {
+            driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+        } else {
+            driver = new ChromeDriver(options);
+        }
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(baseUrl);

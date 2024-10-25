@@ -16,6 +16,7 @@ jobs:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       IS_HEADLESS: true
+      IS_REMOTE: true
 
     steps:
     - uses: actions/checkout@v4
@@ -108,6 +109,10 @@ jobs:
     needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
 
     steps:
       - uses: actions/checkout@v4
