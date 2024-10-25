@@ -144,4 +144,22 @@ export class BooksApiSteps {
             expect(updatedBooks).toEqual(expect.arrayContaining(books));
         });
     }
+
+    /**
+     * Verifies books are absent
+     * @param userContext - user context that executes the API request
+     * @param books - expected not existing books
+     * @public
+     */
+    public static async verifyBooksAreAbsent(
+        userContext: UserContext,
+        books: Book[],
+    ): Promise<void> {
+        await test.step(`Verify books are absent by '${userContext.username}' via API`, async (): Promise<void> => {
+            const actualBooks: Book[] = await this.getBooks(userContext);
+            // Remove the `id` key from each book
+            const updatedBooks = actualBooks.map(({ id, ...rest }) => rest);
+            expect(updatedBooks).not.toEqual(expect.arrayContaining(books));
+        });
+    }
 }

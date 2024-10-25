@@ -51,3 +51,23 @@ test.describe('Update book by API', () => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [updatedBook]);
     });
 });
+
+test.describe('Delete book by API', () => {
+    const bookTittle: string = `delete-book-${uuid_v4().slice(0, 8)}`;
+    const book: Book = {
+        title: bookTittle,
+        author: 'Nicholas Sparks',
+        year: 2003,
+        genre: 'Romantic drama',
+    };
+
+    test.beforeEach(async ({ userContext }) => {
+        await BooksApiSteps.createBook(userContext, book);
+    });
+
+    test('Delete book by API', async ({ userContext }) => {
+        await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
+        await BooksApiSteps.deleteBookByTitle(userContext, book.title);
+        await BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);
+    });
+});
