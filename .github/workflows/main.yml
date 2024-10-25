@@ -128,7 +128,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-#      - uses: browser-actions/setup-chrome@latest
+      - name: Wait for Selenium container to be ready
+        run: sleep 10
+      #      - uses: browser-actions/setup-chrome@latest
 #      - run: chrome --version
 
       - name: Build with Maven
