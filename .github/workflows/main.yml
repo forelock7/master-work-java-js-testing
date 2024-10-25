@@ -9,14 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      HOST: ${{secrets.TEST_HOST}}
-      USERNAME: ${{secrets.ADMIN_USERNAME}}
-      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
-      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-      IS_HEADLESS: true
-      IS_REMOTE: true
 
     steps:
     - uses: actions/checkout@v4
@@ -83,6 +75,12 @@ jobs:
     needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.TEST_HOST}}
+      USERNAME: ${{secrets.ADMIN_USERNAME}}
+      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v4
@@ -109,6 +107,14 @@ jobs:
     needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.TEST_HOST}}
+      USERNAME: ${{secrets.ADMIN_USERNAME}}
+      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      IS_HEADLESS: true
+      IS_REMOTE: true
 
     services:
       selenium:
