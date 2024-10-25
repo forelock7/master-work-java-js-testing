@@ -1,7 +1,7 @@
 import { UserContext } from '@config/userContext';
 import { expect, test } from '@playwright/test';
 import { BooksController } from '@controllers/booksController';
-import { Book } from '../../models/book';
+import { Book } from '@models/book';
 import console from 'console';
 
 export class BooksApiSteps {
@@ -63,7 +63,7 @@ export class BooksApiSteps {
     }
 
     /**
-     * Delete book by book ID
+     * Delete book by book Tittle
      * @param userContext - user context that executes the API request
      * @param bookTittle - book's tittle
      * @public
@@ -79,6 +79,34 @@ export class BooksApiSteps {
             } else {
                 console.log(`'${bookTittle}' book not found`);
             }
+        });
+    }
+
+    /**
+     * Update book
+     * @param userContext - user context that executes the API request
+     * @param book - book DTO which is going to be updated
+     * @public
+     */
+    public static async updateBook(userContext: UserContext, book: Book): Promise<void> {
+        await test.step(`Delete book with '${book.id}' ID by '${userContext.username}' via API`, async () => {
+            let bookId: number;
+            let updatedBook: Book;
+            if (book.id) {
+                bookId = book.id;
+                const { id, ...rest } = book;
+                updatedBook = rest;
+            } else {
+                const existingBook = await this.getBookByTittle(userContext, book.title);
+                if (existingBook) {
+                    bookId = existingBook.id!;
+                    updatedBook = book;
+                } else {
+                    throw new Error(`'${book.title}' book not found`);
+                }
+            }
+            const res = await BooksController.updateBook(userContext, bookId, updatedBook);
+            expect(res.status()).toBe(204);
         });
     }
 
