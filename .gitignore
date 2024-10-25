@@ -47,3 +47,4 @@ node_modules/
 /playwright-project/playwright-report/index.html
 /playwright-project/dist/
 /playwright-project/test-results/
+/playwright-project/reports/

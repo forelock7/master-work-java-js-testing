@@ -136,15 +136,15 @@ function loadBooksTable() {
             const booksList = document.getElementById('books-list');
             // Очищаємо список перед додаванням нових даних
             booksList.innerHTML = '';
-            books.forEach(book => {
+            books.forEach((book, index) => {
                 const row = booksList.insertRow();
                 row.innerHTML = `
-                    <td>${book.id}</td>
-                    <td>${book.title}</td>
-                    <td>${book.author}</td>
-                    <td>${book.genre}</td>
-                    <td>${book.year}</td>
-                    <td class="table-button-cell">
+                    <td row=${index}>${book.id}</td>
+                    <td row=${index}>${book.title}</td>
+                    <td row=${index}>${book.author}</td>
+                    <td row=${index}>${book.genre}</td>
+                    <td row=${index}>${book.year}</td>
+                    <td class="table-button-cell" row=${index}>
                         <button class="table-button delete-book-button" onclick="deleteBook(${book.id})">Delete</button>
                         <button class="table-button update-book-button" onclick="loadUpdateForm(${book.id})">Edit</button>
                     </td>

@@ -9,10 +9,8 @@ services:
     ports:
      - "8080:8080"
      - "5005:5005"
-#    environment:
-#      - CATALINA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -DLog4j2.formatMsgNoLookups=true -Dfile.encoding=UTF8 -Djava.net.preferIPv4Stack=true -Dhttps.protocols=TLSv1.1,TLSv1.2 -Xms1024m -Xmx4096m
     depends_on:
-      - postgres
+      - master-work-db-container
     networks:
       - local
   master-work-db-container:
