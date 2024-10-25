@@ -82,8 +82,6 @@ jobs:
       HOST: ${{secrets.TEST_HOST}}
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
-      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v4
@@ -114,8 +112,6 @@ jobs:
       HOST: ${{secrets.TEST_HOST}}
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
-      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       IS_HEADLESS: true
       IS_REMOTE: true
 
