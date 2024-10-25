@@ -123,3 +123,4 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B clean test -DsuiteXmlFile=src/test/resources/testng.xml
+        working-directory: selenium-project
