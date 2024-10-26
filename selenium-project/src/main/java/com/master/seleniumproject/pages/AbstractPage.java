@@ -15,4 +15,5 @@ public abstract class AbstractPage {
         element.clear();
         element.sendKeys(text);
     }
+
 }
