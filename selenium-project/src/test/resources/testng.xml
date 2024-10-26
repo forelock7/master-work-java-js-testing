@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="BooksTests">
+    <test name="BooksUITests">
+        <classes>
+            <class name="com.master.seleniumproject.BooksUiTest"/>
+        </classes>
+    </test>
+</suite>

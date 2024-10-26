@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
 
     steps:
     - uses: actions/checkout@v4
@@ -20,9 +23,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-docker-
     - name: Login Dockerhub
-      env:
-        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - name: Build DB Docker image
       run: docker build ./app-project --file ./app-project/db/Dockerfile --tag forelock/master-work-db:latest
@@ -78,6 +78,10 @@ jobs:
     needs: deploy
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.TEST_HOST}}
+      USERNAME: ${{secrets.ADMIN_USERNAME}}
+      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
 
     steps:
       - uses: actions/checkout@v4
@@ -91,10 +95,6 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: playwright-project
       - name: Run Playwright tests
-        env:
-          HOST: ${{secrets.TEST_HOST}}
-          USERNAME: ${{secrets.ADMIN_USERNAME}}
-          PASSWORD: ${{secrets.ADMIN_PASSWORD}}
         run: npx playwright test
         working-directory: playwright-project
       - uses: actions/upload-artifact@v4
@@ -103,3 +103,26 @@ jobs:
           name: playwright-report
           path: playwright-project/playwright-report/
           retention-days: 30
+
+  selenium-tests:
+    needs: deploy
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      HOST: ${{secrets.TEST_HOST}}
+      USERNAME: ${{secrets.ADMIN_USERNAME}}
+      PASSWORD: ${{secrets.ADMIN_PASSWORD}}
+      IS_HEADLESS: true
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
+        working-directory: selenium-project

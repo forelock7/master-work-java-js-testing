@@ -1,5 +1,4 @@
-app-project/target/
-db/data/
+target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -34,18 +33,6 @@ build/
 
 ### VS Code ###
 .vscode/
-.idea/
 
 ### Mac OS ###
 .DS_Store
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright-project/test-results/.last-run.json
-/playwright-project/playwright-report/index.html
-/playwright-project/dist/
-/playwright-project/test-results/
-/playwright-project/reports/
-allure-results/
