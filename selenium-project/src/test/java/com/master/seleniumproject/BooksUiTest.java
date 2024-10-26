@@ -38,7 +38,10 @@ public class BooksUiTest {
         ChromeOptions options = new ChromeOptions();
         // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
-        if (isHeadless) options.addArguments("--headless=new");
+        if (isHeadless) {
+            options.addArguments("--headless=new");
+            options.addArguments("--disable-gpu");
+        };
         if (isRemote) {
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
