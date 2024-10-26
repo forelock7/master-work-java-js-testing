@@ -120,6 +120,8 @@ jobs:
         image: selenium/standalone-chrome:latest
         ports:
           - 4444:4444
+          - 5900:5900 # VNC server
+          - 7900:7900 # VNC browser client
 
     steps:
       - uses: actions/checkout@v4
