@@ -1,15 +1,25 @@
 package com.master.seleniumproject.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Book {
 
+    @JsonProperty("id")
     private int id;
-    private String tittle;
+    @JsonProperty("ttitle")
+    private String ttitle;
+    @JsonProperty("author")
     private String author;
+    @JsonProperty("genre")
     private String genre;
+    @JsonProperty("year")
     private int year;
 
-    public Book(String tittle, String author, String genre, int year) {
-        this.tittle = tittle;
+    public Book() {
+    }
+
+    public Book(String ttitle, String author, String genre, int year) {
+        this.ttitle = ttitle;
         this.author = author;
         this.genre = genre;
         this.year = year;
@@ -23,12 +33,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTtitle() {
+        return ttitle;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTtitle(String ttitle) {
+        this.ttitle = ttitle;
     }
 
     public String getAuthor() {

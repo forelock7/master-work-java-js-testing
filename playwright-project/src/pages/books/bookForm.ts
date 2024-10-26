@@ -18,8 +18,8 @@ export class BookForm extends BasePage {
         await this.openURL(loginPageUrl);
     }
 
-    async fillTittle(tittle: string): Promise<void> {
-        await this.titleInput.fill(tittle);
+    async fillTtitle(ttitle: string): Promise<void> {
+        await this.titleInput.fill(ttitle);
     }
 
     async fillAuthor(author: string): Promise<void> {

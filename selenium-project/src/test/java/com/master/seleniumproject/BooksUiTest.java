@@ -2,6 +2,7 @@ package com.master.seleniumproject;
 
 import com.master.seleniumproject.models.Book;
 import com.master.seleniumproject.models.UserContext;
+import com.master.seleniumproject.steps.api.books.BooksApiSteps;
 import com.master.seleniumproject.steps.ui.books.BookFormSteps;
 import com.master.seleniumproject.steps.ui.books.BooksTableSteps;
 import com.master.seleniumproject.steps.ui.login.LoginPageSteps;
@@ -25,6 +26,7 @@ public class BooksUiTest {
     private LoginPageSteps loginPageSteps;
     private BookFormSteps bookFormSteps;
     private BooksTableSteps booksTableSteps;
+    private BooksApiSteps booksApiSteps;
     private UserContext userContext;
     private Book book;
 
@@ -45,12 +47,14 @@ public class BooksUiTest {
         loginPageSteps = new LoginPageSteps(driver);
         bookFormSteps = new BookFormSteps(driver);
         booksTableSteps = new BooksTableSteps(driver);
+        booksApiSteps = new BooksApiSteps();
         userContext = new UserContext(USERNAME, PASSWORD);
         book = new Book("Effective Java", "Joshua Bloch", "Scince", 2018);
     }
 
     @AfterMethod
     public void tearDown() {
+        booksApiSteps.getBooks(userContext);
         driver.quit();
     }
 
