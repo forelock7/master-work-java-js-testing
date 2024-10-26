@@ -17,6 +17,7 @@
         <selenium.version>4.25.0</selenium.version>
         <assertj.version>3.26.3</assertj.version>
         <aspectj.version>1.9.19</aspectj.version>
+        <rest.assured.version>5.5.0</rest.assured.version>
         <allure.testng.version>2.29.0</allure.testng.version>
         <allure.maven.version>2.14.0</allure.maven.version>
     </properties>
@@ -56,6 +57,16 @@
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
             <version>4.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest.assured.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${rest.assured.version}</version>
         </dependency>
     </dependencies>
     <build>
