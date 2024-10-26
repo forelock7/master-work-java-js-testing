@@ -16,7 +16,7 @@ public class BooksPage extends AbstractPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void waitForLogOutLinkIsVisible() {
-        // TO DO: implement fluent wait
+    public boolean isLogOutLinkDisplayed() {
+        return this.logOutLink.isDisplayed();
     }
 }
