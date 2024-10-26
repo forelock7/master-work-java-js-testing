@@ -33,8 +33,6 @@ public class BooksUiTest {
         String password = System.getenv("PASSWORD");
         String baseUrl = "http://" + host + ":8080";
         boolean isHeadless = Boolean.parseBoolean(System.getenv("IS_HEADLESS"));
-        boolean isRemote = Boolean.parseBoolean(System.getenv("IS_REMOTE"));
-
         ChromeOptions options = new ChromeOptions();
         // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
@@ -42,13 +40,7 @@ public class BooksUiTest {
             options.addArguments("--headless=new");
             options.addArguments("--disable-gpu");
         };
-        if (isRemote) {
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            driver = new RemoteWebDriver(new URL("http://selenium:4444/wd/hub"), options);
-        } else {
-            driver = new ChromeDriver(options);
-        }
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(baseUrl);
