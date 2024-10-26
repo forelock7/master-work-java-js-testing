@@ -6,15 +6,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends AbstractPage {
-    WebDriver driver;
     @FindBy(css = "input[id='email']")
-    public WebElement usernameInput;
+    private WebElement usernameInput;
 
     @FindBy(css = "input[id='password']")
     public WebElement passwordInput;
 
     @FindBy(css = "button[type='submit']")
-    public WebElement loginButton;
+    private WebElement loginButton;
 
     public LoginPage(WebDriver driver) {
         super(driver);

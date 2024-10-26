@@ -1,8 +1,8 @@
-import {Page, test} from '@playwright/test';
-import {LoginPage} from '@pages/login/loginPage';
-import {UserContext} from '@config/userContext';
-import {BrowserSteps} from '@steps/ui/browser.steps';
-import {BooksPage} from '@pages/books/booksPage';
+import { Page, test } from '@playwright/test';
+import { LoginPage } from '@pages/login/loginPage';
+import { UserContext } from '@config/userContext';
+import { BrowserSteps } from '@steps/ui/browser.steps';
+import { BooksPage } from '@pages/books/booksPage';
 
 export class LoginPageSteps extends BrowserSteps {
     constructor(
@@ -20,7 +20,7 @@ export class LoginPageSteps extends BrowserSteps {
             await this.fillPasswordField(userContext.password);
             await this.clickLoginButton();
 
-            await this.booksPage.waitForBooksPageOpened();
+            await this.booksPage.waitForLogOutLinkIsVisible();
         });
     };
 

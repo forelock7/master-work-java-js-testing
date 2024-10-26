@@ -1,6 +1,6 @@
-import {Locator, Page} from '@playwright/test';
-import {BasePage} from '@pages/basePage';
-import {ElementState} from '@constants/elementState';
+import { Locator, Page } from '@playwright/test';
+import { BasePage } from '@pages/basePage';
+import { ElementState } from '@constants/elementState';
 
 export class BooksPage extends BasePage {
     constructor(
@@ -14,7 +14,7 @@ export class BooksPage extends BasePage {
         await this.openURL(loginPageUrl);
     }
 
-    async waitForBooksPageOpened(): Promise<void> {
+    async waitForLogOutLinkIsVisible(): Promise<void> {
         await this.logOutLink.waitFor({ state: ElementState.VISIBLE });
     }
 }

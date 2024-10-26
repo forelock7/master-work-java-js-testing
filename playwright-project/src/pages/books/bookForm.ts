@@ -1,5 +1,5 @@
-import {Locator, Page} from '@playwright/test';
-import {BasePage} from '@pages/basePage';
+import { Locator, Page } from '@playwright/test';
+import { BasePage } from '@pages/basePage';
 
 export class BookForm extends BasePage {
     constructor(
@@ -9,7 +9,7 @@ export class BookForm extends BasePage {
         private genreInput: Locator = page.locator(`input[id='genre']`),
         private yearInput: Locator = page.locator(`input[id='year']`),
         private addUpdateButton: Locator = page.locator(`button[id='add-update-form-button']`),
-        private cancelButton: Locator = page.locator(`button[id='add-update-form-button']`),
+        private cancelButton: Locator = page.locator(`button[id='cancel-button']`),
     ) {
         super(page);
     }
