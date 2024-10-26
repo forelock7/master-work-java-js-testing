@@ -6,8 +6,8 @@ public class Book {
 
     @JsonProperty("id")
     private int id;
-    @JsonProperty("ttitle")
-    private String ttitle;
+    @JsonProperty("title")
+    private String title;
     @JsonProperty("author")
     private String author;
     @JsonProperty("genre")
@@ -18,8 +18,8 @@ public class Book {
     public Book() {
     }
 
-    public Book(String ttitle, String author, String genre, int year) {
-        this.ttitle = ttitle;
+    public Book(String title, String author, String genre, int year) {
+        this.title = title;
         this.author = author;
         this.genre = genre;
         this.year = year;
@@ -33,12 +33,12 @@ public class Book {
         this.id = id;
     }
 
-    public String getTtitle() {
-        return ttitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTtitle(String ttitle) {
-        this.ttitle = ttitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getAuthor() {

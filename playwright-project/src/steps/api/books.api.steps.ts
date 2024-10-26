@@ -1,7 +1,7 @@
-import { UserContext } from '@config/userContext';
-import { expect, test } from '@playwright/test';
-import { BooksController } from '@controllers/booksController';
-import { Book } from '@models/book';
+import {UserContext} from '@config/userContext';
+import {expect, test} from '@playwright/test';
+import {BooksController} from '@controllers/booksController';
+import {Book} from '@models/book';
 import console from 'console';
 
 export class BooksApiSteps {
@@ -20,19 +20,19 @@ export class BooksApiSteps {
     }
 
     /**
-     * Get book by ttitle
+     * Get book by title
      * @param userContext - user context that executes the API request
-     * @param bookTtitle - book's ttitle
+     * @param bookTitle - book's title
      * @public
      * @return Book's object
      */
-    public static async getBookByTtitle(
+    public static async getBookByTitle(
         userContext: UserContext,
-        bookTtitle: string,
+        bookTitle: string,
     ): Promise<Book | undefined> {
         return test.step(`Get books by '${userContext.username}' via API`, async () => {
             const books: Book[] = await this.getBooks(userContext);
-            return books.find((b) => b.title === bookTtitle);
+            return books.find((b) => b.title === bookTitle);
         });
     }
 
@@ -63,21 +63,21 @@ export class BooksApiSteps {
     }
 
     /**
-     * Delete book by book Ttitle
+     * Delete book by book Title
      * @param userContext - user context that executes the API request
-     * @param bookTtitle - book's ttitle
+     * @param bookTitle - book's title
      * @public
      */
     public static async deleteBookByTitle(
         userContext: UserContext,
-        bookTtitle: string,
+        bookTitle: string,
     ): Promise<void> {
-        await test.step(`Delete book with '${bookTtitle}' ttitle by '${userContext.username}' via API`, async () => {
-            const book = await this.getBookByTtitle(userContext, bookTtitle);
+        await test.step(`Delete book with '${bookTitle}' title by '${userContext.username}' via API`, async () => {
+            const book = await this.getBookByTitle(userContext, bookTitle);
             if (book) {
                 await this.deleteBookById(userContext, book.id!);
             } else {
-                console.log(`'${bookTtitle}' book not found`);
+                console.log(`'${bookTitle}' book not found`);
             }
         });
     }
@@ -97,7 +97,7 @@ export class BooksApiSteps {
                 const { id, ...rest } = book;
                 updatedBook = rest;
             } else {
-                const existingBook = await this.getBookByTtitle(userContext, book.title);
+                const existingBook = await this.getBookByTitle(userContext, book.title);
                 if (existingBook) {
                     bookId = existingBook.id!;
                     updatedBook = book;
@@ -111,19 +111,19 @@ export class BooksApiSteps {
     }
 
     /**
-     * Verifies books are present by ttitles
+     * Verifies books are present by titles
      * @param userContext - user context that executes the API request
-     * @param ttitles - expected existing books' ttitles
+     * @param titles - expected existing books' titles
      * @public
      */
-    public static async verifyBooksArePresentByTtitle(
+    public static async verifyBooksArePresentByTitle(
         userContext: UserContext,
-        ttitles: string[],
+        titles: string[],
     ): Promise<void> {
-        await test.step(`Verify '${ttitles}' are present by '${userContext.username}' via API`, async (): Promise<void> => {
+        await test.step(`Verify '${titles}' are present by '${userContext.username}' via API`, async (): Promise<void> => {
             const books: Book[] = await this.getBooks(userContext);
             const actualBooks = books.map((b) => b.title);
-            expect(actualBooks).toEqual(expect.arrayContaining(ttitles));
+            expect(actualBooks).toEqual(expect.arrayContaining(titles));
         });
     }
 

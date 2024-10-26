@@ -12,7 +12,7 @@ public class BookFormSteps {
     }
 
     public void addBook(Book book) {
-        this.fillTtitleInput(book.getTtitle());
+        this.fillTitleInput(book.getTitle());
         this.fillAuthorInput(book.getAuthor());
         this.fillGenreInput(book.getGenre());
         this.fillYearInput(book.getYear());
@@ -20,8 +20,8 @@ public class BookFormSteps {
         this.clickAddUpdateButton();
     }
 
-    public void fillTtitleInput(String ttitle) {
-        this.bookForm.fillTtitleInput( ttitle);
+    public void fillTitleInput(String title) {
+        this.bookForm.fillTitleInput( title);
     }
 
     public void fillAuthorInput(String author) {

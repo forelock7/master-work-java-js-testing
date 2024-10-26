@@ -31,8 +31,8 @@ public class BookForm extends AbstractPage  {
         PageFactory.initElements(driver, this);
     }
 
-    public void fillTtitleInput(String ttitle) {
-        this.fillInput(this.titleInput, ttitle);
+    public void fillTitleInput(String title) {
+        this.fillInput(this.titleInput, title);
     }
 
     public void fillAuthorInput(String author) {

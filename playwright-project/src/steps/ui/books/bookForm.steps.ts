@@ -17,7 +17,7 @@ export class BookFormSteps extends BrowserSteps {
      */
     addBook = async (book: Book): Promise<void> => {
         await test.step(`Add/Update book with '${book.toString()}' in 'Book' form on 'Books' page`, async () => {
-            await this.fillTtitleInput(book.title);
+            await this.fillTitleInput(book.title);
             await this.fillAuthorInput(book.author);
             await this.fillGenreInput(book.genre);
             await this.fillYearInput(book.year);
@@ -35,12 +35,12 @@ export class BookFormSteps extends BrowserSteps {
     };
 
     /**
-     * Fills 'Ttitle' input field
-     * @param ttitle
+     * Fills 'Title' input field
+     * @param title
      */
-    fillTtitleInput = async (ttitle: string): Promise<void> => {
-        await test.step(`Fill 'Ttitle' input by '${ttitle}' in 'Book' form on 'Books' page`, async () => {
-            await this.bookForm.fillTtitle(ttitle);
+    fillTitleInput = async (title: string): Promise<void> => {
+        await test.step(`Fill 'Title' input by '${title}' in 'Book' form on 'Books' page`, async () => {
+            await this.bookForm.fillTitle(title);
         });
     };
 
