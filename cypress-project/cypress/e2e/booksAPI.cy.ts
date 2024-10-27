@@ -45,3 +45,21 @@ describe('Update book via API', () => {
         BooksApiSteps.verifyBooksArePresent(userContext, [updatedBook]);
     });
 });
+
+describe('Delete book via API', () => {
+    const userContext = new UserContext();
+    const book: Book = {
+        title: 'Fluent Python. Clear, Concise, and Effective Programming',
+        author: 'Luciano Ramalho',
+        year: 2022,
+        genre: 'Education',
+    };
+    beforeEach(() => {
+        BooksApiSteps.createBook(userContext, book);
+    });
+    it('passes', () => {
+        BooksApiSteps.verifyBooksArePresent(userContext, [book]);
+        BooksApiSteps.deleteBookByTitle(userContext, book.title);
+        BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);
+    });
+});
