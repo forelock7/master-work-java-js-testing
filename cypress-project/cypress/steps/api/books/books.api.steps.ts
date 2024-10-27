@@ -61,7 +61,7 @@ class BooksApiSteps {
      */
     public static deleteBookByTitle(userContext: UserContext, bookTitle: string) {
         this.getBookByTitle(userContext, bookTitle).then((book) => {
-            if (book) {
+            if (book.title) {
                 return this.deleteBookById(userContext, book.id!);
             } else {
                 cy.log(`Book with title '${bookTitle}' not found`);

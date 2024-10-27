@@ -50,8 +50,8 @@ export class BooksTableSteps extends BrowserSteps {
     };
 
     /**
-     * Verifies provided rows are absent in Books table
-     * @param rows - rows represented as string
+     * Deletes book in Books table
+     * @param bookId
      */
     deleteBookById = async (bookId: number): Promise<void> => {
         await test.step(`Delete book with '${bookId}' ID from table on 'Books' page`, async () => {

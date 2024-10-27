@@ -88,6 +88,14 @@ class BooksTableSteps {
         // Start polling with the first attempt
         pollForRows(1);
     }
+
+    /**
+     * Deletes book in Books table
+     * @param bookId
+     */
+    deleteBookById(bookId: number) {
+        BooksTable.clickDeleteBookButton(bookId);
+    }
 }
 
 export default new BooksTableSteps();

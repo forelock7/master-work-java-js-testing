@@ -47,5 +47,11 @@ describe('Delete book via UI', () => {
         BooksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,
         ]);
+        BooksApiSteps.getBookByTitle(userContext, book.title).then((b) => {
+            BooksTableSteps.deleteBookById(b.id);
+        });
+        BooksTableSteps.verifyRowsAreAbsent([
+            `${book.title} ${book.author} ${book.genre} ${book.year}`,
+        ]);
     });
 });
