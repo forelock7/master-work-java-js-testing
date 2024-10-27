@@ -1,0 +1,8 @@
+.git/
+.idea/
+.vscode/
+docs/
+node_modules/
+reports/
+test-data/
+test-results/

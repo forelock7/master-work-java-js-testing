@@ -1,6 +1,6 @@
-import LoginPage from "../../../pages/login/LoginPage";
-import BooksPage from "../../../pages/books/BooksPage";
-import {UserContext} from "../../../config/userContext";
+import LoginPage from '../../../pages/login/LoginPage';
+import BooksPage from '../../../pages/books/BooksPage';
+import { UserContext } from '../../../config/userContext';
 
 class LoginPageSteps {
     openPage() {
@@ -21,12 +21,12 @@ class LoginPageSteps {
 
     // Method to handle full login flow
     login(userContext: UserContext) {
-        this.openPage()
+        this.openPage();
         this.enterUsername(userContext.username);
         this.enterPassword(userContext.password);
         this.submit();
 
-        BooksPage.waitForLogOutLinkIsVisible()
+        BooksPage.waitForLogOutLinkIsVisible();
     }
 }
 
