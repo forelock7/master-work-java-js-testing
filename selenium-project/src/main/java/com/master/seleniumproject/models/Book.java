@@ -64,4 +64,39 @@ public class Book {
     public void setYear(short year) {
         this.year = year;
     }
+
+    // Optionally override equals and hashCode for proper comparison
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (year != book.year) return false;
+        if (!title.equals(book.title)) return false;
+        if (!author.equals(book.author)) return false;
+        return genre.equals(book.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + genre.hashCode();
+        result = 31 * result + year;
+        return result;
+    }
+
+    // Optionally, override toString() for better error messages
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre='" + genre + '\'' +
+                ", year=" + year +
+                '}';
+    }
 }

@@ -49,12 +49,12 @@ public class BooksUiTest {
         booksTableSteps = new BooksTableSteps(driver);
         booksApiSteps = new BooksApiSteps();
         userContext = new UserContext(USERNAME, PASSWORD);
-        book = new Book("Effective Java", "Joshua Bloch", "Scince", 2018);
+        book = new Book("Effective Java", "Joshua Bloch", "Science", 2018);
     }
 
     @AfterMethod
     public void tearDown() {
-        booksApiSteps.getBooks(userContext);
+        booksApiSteps.deleteBookByTitle(userContext, book.getTitle());
         driver.quit();
     }
 
@@ -63,8 +63,7 @@ public class BooksUiTest {
         this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(book);
 
-        String[] rows = {"Effective Java Joshua Bloch Scince 2018"};
+        String[] rows = {"Effective Java Joshua Bloch Science 2018"};
         this.booksTableSteps.verifyRowsArePresent(rows);
     }
-
 }
