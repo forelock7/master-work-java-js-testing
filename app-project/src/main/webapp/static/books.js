@@ -139,12 +139,12 @@ function loadBooksTable() {
             books.forEach((book, index) => {
                 const row = booksList.insertRow();
                 row.innerHTML = `
-                    <td row=${index}>${book.id}</td>
-                    <td row=${index}>${book.title}</td>
-                    <td row=${index}>${book.author}</td>
-                    <td row=${index}>${book.genre}</td>
-                    <td row=${index}>${book.year}</td>
-                    <td class="table-button-cell" row=${index}>
+                    <td data-bookid=${book.id}>${book.id}</td>
+                    <td data-bookid=${book.id}>${book.title}</td>
+                    <td data-bookid=${book.id}>${book.author}</td>
+                    <td data-bookid=${book.id}>${book.genre}</td>
+                    <td data-bookid=${book.id}>${book.year}</td>
+                    <td class="table-button-cell" data-bookid=${book.id}>
                         <button class="table-button delete-book-button" onclick="deleteBook(${book.id})">Delete</button>
                         <button class="table-button update-book-button" onclick="loadUpdateForm(${book.id})">Edit</button>
                     </td>
