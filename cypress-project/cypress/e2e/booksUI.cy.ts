@@ -3,8 +3,9 @@ import { UserContext } from '../config/userContext';
 import { Book } from '../models/book';
 import BookFormSteps from '../steps/ui/books/bookForm.steps';
 import BooksTableSteps from '../steps/ui/books/booksTable.steps';
+import BooksApiSteps from '../steps/api/books/books.api.steps';
 
-describe('template spec', () => {
+describe('Add book via UI', () => {
     const userContext = new UserContext();
     const book: Book = {
         title: 'C++ Programming Language',
@@ -12,7 +13,10 @@ describe('template spec', () => {
         year: 2013,
         genre: 'Education',
     };
-    it('passes', () => {
+    afterEach(() => {
+        BooksApiSteps.deleteBookByTitle(userContext, book.title);
+    });
+    it('Add book via UI', () => {
         LoginPageSteps.login(userContext);
         BookFormSteps.addBook(book);
         BooksTableSteps.verifyRowsArePresent([
