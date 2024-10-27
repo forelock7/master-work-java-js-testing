@@ -9,11 +9,13 @@ import com.master.seleniumproject.steps.ui.login.LoginPageSteps;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.UUID;
 
 import static com.master.seleniumproject.config.EnvConfigs.BASE_URL;
 import static com.master.seleniumproject.config.EnvConfigs.IS_HEADLESS;
@@ -31,7 +33,7 @@ public class BooksUiTest {
     private Book book;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp(ITestResult result) {
         ChromeOptions options = new ChromeOptions();
         // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
@@ -49,17 +51,30 @@ public class BooksUiTest {
         booksTableSteps = new BooksTableSteps(driver);
         booksApiSteps = new BooksApiSteps();
         userContext = new UserContext(USERNAME, PASSWORD);
-        book = new Book("Effective Java", "Joshua Bloch", "Science", 2018);
+
+        if ("createBook".equals(result.getMethod().getMethodName())) {
+            String bookTitle = "se-ui-create-book-" + UUID.randomUUID().toString().substring(0, 8);
+            book = new Book(bookTitle, "Joshua Bloch", "Science", 2018);
+        }
     }
 
     @AfterMethod
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
         booksApiSteps.deleteBookByTitle(userContext, book.getTitle());
         driver.quit();
     }
 
     @Test
     public void createBook() {
+        this.loginPageSteps.logIn(userContext);
+        this.bookFormSteps.addBook(book);
+
+        String[] rows = {"Effective Java Joshua Bloch Science 2018"};
+        this.booksTableSteps.verifyRowsArePresent(rows);
+    }
+
+    @Test
+    public void deleteBook() {
         this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(book);
 
