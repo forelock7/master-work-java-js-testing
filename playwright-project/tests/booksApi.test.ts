@@ -3,7 +3,7 @@ import { BooksApiSteps } from '@steps/api/books.api.steps';
 import { v4 as uuid_v4 } from 'uuid';
 import { Book } from '@models/book';
 
-test.describe('Create book by API', () => {
+test.describe('Create book via API', () => {
     const bookTitle: string = `pw-api-create-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,
@@ -22,7 +22,7 @@ test.describe('Create book by API', () => {
     });
 });
 
-test.describe('Update book by API', () => {
+test.describe('Update book via API', () => {
     const bookTitle: string = `pw-api-update-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,
@@ -52,7 +52,7 @@ test.describe('Update book by API', () => {
     });
 });
 
-test.describe('Delete book by API', () => {
+test.describe('Delete book via API', () => {
     const bookTitle: string = `pw-api-delete-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,

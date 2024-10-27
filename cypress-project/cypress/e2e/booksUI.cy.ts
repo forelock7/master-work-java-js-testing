@@ -26,3 +26,26 @@ describe('Create book via UI', () => {
         ]);
     });
 });
+
+describe('Delete book via UI', () => {
+    const userContext = new UserContext();
+    const bookTitle: string = `cy-ui-delete-book-${uuid_v4().slice(0, 8)}`;
+    const book: Book = {
+        title: bookTitle,
+        author: 'Mario Stromeo',
+        year: 1999,
+        genre: 'Roman',
+    };
+    beforeEach(() => {
+        BooksApiSteps.createBook(userContext, book);
+    });
+    afterEach(() => {
+        BooksApiSteps.deleteBookByTitle(userContext, book.title);
+    });
+    it('delete', () => {
+        LoginPageSteps.login(userContext);
+        BooksTableSteps.verifyRowsArePresent([
+            `${book.title} ${book.author} ${book.genre} ${book.year}`,
+        ]);
+    });
+});
