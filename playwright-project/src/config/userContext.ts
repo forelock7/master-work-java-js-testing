@@ -1,5 +1,5 @@
 import {Role} from '@constants/role';
-import {envConfig} from '@constants/env.config';
+import {envConfig} from '@config/env.config';
 
 export class UserContext {
     token?: string;
