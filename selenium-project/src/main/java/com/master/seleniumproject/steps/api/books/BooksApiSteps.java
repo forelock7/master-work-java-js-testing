@@ -93,19 +93,30 @@ public class BooksApiSteps {
                 .statusCode(SC_NO_CONTENT);
     }
 
-    public void verifyBooksArePresent(UserContext userContext, List<Book> books) {
+    private List<Book> getBooksAndRemoveIds(UserContext userContext) {
         List<Book> actualBooks = this.getBooks(userContext);
-        List<Book> updatedBooks = actualBooks.stream()
+        return actualBooks.stream()
                 .map(book -> new Book(book.getTitle(), book.getAuthor(), book.getGenre(), book.getYear()))  // Create a new Book without the id
                 .toList();
-        Assertions.assertThat(updatedBooks).containsAll(books);
+    }
+
+    public void verifyBooksArePresent(UserContext userContext, List<Book> books) {
+        List<Book> actualBooks = getBooksAndRemoveIds(userContext);
+        Assertions.assertThat(actualBooks).containsAll(books);
     }
 
     public void verifyBookIsPresent(UserContext userContext, Book book) {
-        List<Book> actualBooks = this.getBooks(userContext);
-        List<Book> updatedBooks = actualBooks.stream()
-                .map(b -> new Book(b.getTitle(), b.getAuthor(), b.getGenre(), b.getYear()))  // Create a new Book without the id
-                .toList();
-        Assertions.assertThat(updatedBooks).contains(book);
+        List<Book> actualBooks = getBooksAndRemoveIds(userContext);
+        Assertions.assertThat(actualBooks).contains(book);
+    }
+
+    public void verifyBooksAreAbsent(UserContext userContext, List<Book> books) {
+        List<Book> actualBooks = getBooksAndRemoveIds(userContext);
+        Assertions.assertThat(actualBooks).doesNotContainAnyElementsOf(books);
+    }
+
+    public void verifyBookIsAbsent(UserContext userContext, Book book) {
+        List<Book> actualBooks = getBooksAndRemoveIds(userContext);
+        Assertions.assertThat(actualBooks).doesNotContain(book);
     }
 }
