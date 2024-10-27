@@ -29,7 +29,7 @@ export class BooksTableSteps extends BrowserSteps {
         await test.step(`Verify rows are present in table on 'Books' page`, async () => {
             await expect
                 .poll(async () => {
-                    await this.getRowsTextAndModify();
+                    return this.getRowsTextAndModify();
                 })
                 .toEqual(expect.arrayContaining(rows));
         });
@@ -43,7 +43,7 @@ export class BooksTableSteps extends BrowserSteps {
         await test.step(`Verify rows are absent in table on 'Books' page`, async () => {
             await expect
                 .poll(async () => {
-                    await this.getRowsTextAndModify();
+                    return this.getRowsTextAndModify();
                 })
                 .not.toEqual(expect.arrayContaining(rows));
         });
