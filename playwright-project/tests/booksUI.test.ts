@@ -16,12 +16,7 @@ test.describe('Create book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Create book by API', async ({
-        userContext,
-        loginPageSteps,
-        bookFormSteps,
-        booksTableSteps,
-    }) => {
+    test('create', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
         await loginPageSteps.logIn(userContext);
         await bookFormSteps.addBook(book);
         await booksTableSteps.verifyRowsArePresent([
@@ -47,12 +42,7 @@ test.describe('Delete book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Delete book by API', async ({
-        userContext,
-        loginPageSteps,
-        bookFormSteps,
-        booksTableSteps,
-    }) => {
+    test('delete', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
         await loginPageSteps.logIn(userContext);
         await booksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,

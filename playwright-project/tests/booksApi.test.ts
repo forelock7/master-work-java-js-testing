@@ -16,7 +16,7 @@ test.describe('Create book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Create book by API', async ({ userContext }) => {
+    test('create', async ({ userContext }) => {
         await BooksApiSteps.createBook(userContext, book);
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
     });
@@ -39,7 +39,7 @@ test.describe('Update book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Update book by API', async ({ userContext }) => {
+    test('update', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
             title: bookTitle,
@@ -65,7 +65,7 @@ test.describe('Delete book by API', () => {
         await BooksApiSteps.createBook(userContext, book);
     });
 
-    test('Delete book by API', async ({ userContext }) => {
+    test('delete', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
         await BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);
