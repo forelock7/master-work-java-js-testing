@@ -1,6 +1,6 @@
 import {Fixtures} from '@playwright/test';
 import {UserContext} from '@config/userContext';
-import {envConfig} from '@constants/env.config';
+import {envConfig} from '@config/env.config';
 
 // Declare the types of your fixtures.
 export type UserContextFixture = {
@@ -18,8 +18,7 @@ export const userFixture: Fixtures<{ userContext: UserContext }> = {
 };
 
 export async function setupUserContext(): Promise<UserContext> {
-    const password: string = process.env.PASSWORD || '';
-    return new UserContext(envConfig.username, password);
+    return new UserContext(envConfig.username, envConfig.password);
 }
 
 export { expect } from '@playwright/test';

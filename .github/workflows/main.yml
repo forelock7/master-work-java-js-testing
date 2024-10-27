@@ -126,3 +126,25 @@ jobs:
       - name: Build with Maven
         run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
         working-directory: selenium-project
+
+  cypress-tests:
+    needs: deploy
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    env:
+      CYPRESS_BASE_URL: ${{secrets.TEST_BASE_URL}}
+      CYPRESS_USERNAME: ${{secrets.ADMIN_USERNAME}}
+      CYPRESS_PASSWORD: ${{secrets.ADMIN_PASSWORD}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Install npm dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+#          build: npm run build
+          start: npm start
+          browser: chrome
+          working-directory: cypress-project
