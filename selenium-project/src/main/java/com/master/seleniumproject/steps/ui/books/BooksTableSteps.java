@@ -15,21 +15,34 @@ public class BooksTableSteps {
         this.booksTable = new BooksTable(driver);
     }
 
+    private String[] getRowsTextAndModify() {
+        String[] actualRows = this.booksTable.getRowsTextContents();
+        return Arrays.stream(actualRows)
+                .map(str -> {
+                    // Remove "Delete" and "Edit"
+                    String cleanedString = str.replace("Delete", "").replace("Edit", "").trim();
+                    // Remove the first number (everything up to the first space)
+                    String[] parts = cleanedString.split(" ", 2); // Split into two parts: number and rest of the string
+                    return parts[1]; // Return the rest of the string without the first number
+                })
+                .toArray(String[]::new);
+    }
+
     public void verifyRowsArePresent(String[] rows) {
         Awaitility.await().atMost(10, TimeUnit.SECONDS)
                 .pollInterval(500, TimeUnit.MILLISECONDS)
                 .untilAsserted(() -> {
-                    String[] actualRows = this.booksTable.getRowsTextContents();
-                    String[] updatedRows = Arrays.stream(actualRows)
-                            .map(str -> {
-                                // Remove "Delete" and "Edit"
-                                String cleanedString = str.replace("Delete", "").replace("Edit", "").trim();
-                                // Remove the first number (everything up to the first space)
-                                String[] parts = cleanedString.split(" ", 2); // Split into two parts: number and rest of the string
-                                return parts[1]; // Return the rest of the string without the first number
-                                })
-                            .toArray(String[]::new);
-                    Assertions.assertThat(updatedRows).contains(rows);
+                    String[] actualRows = getRowsTextAndModify();
+                    Assertions.assertThat(actualRows).contains(rows);
+                });
+    }
+
+    public void verifyRowsAreAbsent(String[] rows) {
+        Awaitility.await().atMost(10, TimeUnit.SECONDS)
+                .pollInterval(500, TimeUnit.MILLISECONDS)
+                .untilAsserted(() -> {
+                    String[] actualRows = getRowsTextAndModify();
+                    Assertions.assertThat(actualRows).doesNotContain(rows);
                 });
     }
 }

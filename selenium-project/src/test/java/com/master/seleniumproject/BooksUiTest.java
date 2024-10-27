@@ -31,6 +31,7 @@ public class BooksUiTest {
     private BooksApiSteps booksApiSteps;
     private UserContext userContext;
     private Book bookToCreate;
+    private Book bookToDelete;
 
     @BeforeMethod
     public void setUp(ITestResult result) {
@@ -56,11 +57,21 @@ public class BooksUiTest {
             String bookTitle = "se-ui-create-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToCreate = new Book(bookTitle, "Joshua Bloch", "Science", 2018);
         }
+        if ("deleteBook".equals(result.getMethod().getMethodName())) {
+            String bookTitle = "se-ui-delete-book-" + UUID.randomUUID().toString().substring(0, 8);
+            bookToDelete = new Book(bookTitle, "Jack London", "Novels", 2008);
+        }
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        booksApiSteps.deleteBookByTitle(userContext, bookToCreate.getTitle());
+        if ("createBook".equals(result.getMethod().getMethodName())) {
+            booksApiSteps.deleteBookByTitle(userContext, bookToCreate.getTitle());
+        }
+        if ("deleteBook".equals(result.getMethod().getMethodName())) {
+            booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
+            booksApiSteps.createBook(userContext, bookToDelete);
+        }
         driver.quit();
     }
 
@@ -69,16 +80,17 @@ public class BooksUiTest {
         this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(bookToCreate);
 
-        String[] rows = {bookToCreate.getTitle() + " Joshua Bloch Science 2018"};
+        String[] rows = {bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear()};
         this.booksTableSteps.verifyRowsArePresent(rows);
     }
 
     @Test
     public void deleteBook() {
         this.loginPageSteps.logIn(userContext);
-        this.bookFormSteps.addBook(bookToCreate);
-
-        String[] rows = {bookToCreate.getTitle() + " Joshua Bloch Science 2018"};
+        this.bookFormSteps.addBook(bookToDelete);
+        String[] rows = {bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear()};
         this.booksTableSteps.verifyRowsArePresent(rows);
+
+        this.booksTableSteps.verifyRowsAreAbsent(rows);
     }
 }
