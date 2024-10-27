@@ -1,5 +1,5 @@
-import { Locator, Page } from '@playwright/test';
-import { BasePage } from '@pages/basePage';
+import {Locator, Page} from '@playwright/test';
+import {BasePage} from '@pages/basePage';
 
 export class BookForm extends BasePage {
     constructor(
@@ -18,8 +18,8 @@ export class BookForm extends BasePage {
         await this.openURL(loginPageUrl);
     }
 
-    async fillTittle(tittle: string): Promise<void> {
-        await this.titleInput.fill(tittle);
+    async fillTitle(title: string): Promise<void> {
+        await this.titleInput.fill(title);
     }
 
     async fillAuthor(author: string): Promise<void> {
