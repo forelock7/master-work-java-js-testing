@@ -30,7 +30,7 @@ public class BooksUiTest {
     private BooksTableSteps booksTableSteps;
     private BooksApiSteps booksApiSteps;
     private UserContext userContext;
-    private Book book;
+    private Book bookToCreate;
 
     @BeforeMethod
     public void setUp(ITestResult result) {
@@ -54,31 +54,31 @@ public class BooksUiTest {
 
         if ("createBook".equals(result.getMethod().getMethodName())) {
             String bookTitle = "se-ui-create-book-" + UUID.randomUUID().toString().substring(0, 8);
-            book = new Book(bookTitle, "Joshua Bloch", "Science", 2018);
+            bookToCreate = new Book(bookTitle, "Joshua Bloch", "Science", 2018);
         }
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        booksApiSteps.deleteBookByTitle(userContext, book.getTitle());
+        booksApiSteps.deleteBookByTitle(userContext, bookToCreate.getTitle());
         driver.quit();
     }
 
     @Test
     public void createBook() {
         this.loginPageSteps.logIn(userContext);
-        this.bookFormSteps.addBook(book);
+        this.bookFormSteps.addBook(bookToCreate);
 
-        String[] rows = {"Effective Java Joshua Bloch Science 2018"};
+        String[] rows = {bookToCreate.getTitle() + " Joshua Bloch Science 2018"};
         this.booksTableSteps.verifyRowsArePresent(rows);
     }
 
     @Test
     public void deleteBook() {
         this.loginPageSteps.logIn(userContext);
-        this.bookFormSteps.addBook(book);
+        this.bookFormSteps.addBook(bookToCreate);
 
-        String[] rows = {"Effective Java Joshua Bloch Science 2018"};
+        String[] rows = {bookToCreate.getTitle() + " Joshua Bloch Science 2018"};
         this.booksTableSteps.verifyRowsArePresent(rows);
     }
 }
