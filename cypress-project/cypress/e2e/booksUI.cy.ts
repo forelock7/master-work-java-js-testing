@@ -16,7 +16,7 @@ describe('Add book via UI', () => {
     afterEach(() => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
-    it('Add book via UI', () => {
+    it('passes', () => {
         LoginPageSteps.login(userContext);
         BookFormSteps.addBook(book);
         BooksTableSteps.verifyRowsArePresent([
