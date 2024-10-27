@@ -63,6 +63,36 @@ public class BooksApiSteps {
         }
     }
 
+    public void updateBook(UserContext userContext, Book book) throws Exception {
+        int bookId;
+        Book updatedBook;
+
+        // Check if book has an id
+        if (book.getId() != null) {
+            // If id is present, use the existing id
+            bookId = book.getId();
+
+            // Create a new Book object without the id (manually copy the fields)
+            updatedBook = new Book(book.getTitle(), book.getAuthor(), book.getGenre(), book.getYear());
+        } else {
+            // If no id, find the book by title
+            Book existingBook = getBookByTitle(userContext, book.getTitle());
+
+            // If the book exists, use its id and the passed-in book's details for the update
+            if (existingBook != null) {
+                bookId = existingBook.getId();
+                updatedBook = book;  // Use the original book (no need to modify fields here)
+            } else {
+                // Throw an exception if the book is not found
+                throw new Exception("'" + book.getTitle() + "' book not found");
+            }
+        }
+
+        booksController.updateBook(userContext, bookId, updatedBook)
+                .then()
+                .statusCode(SC_NO_CONTENT);
+    }
+
     public void verifyBooksArePresent(UserContext userContext, List<Book> books) {
         List<Book> actualBooks = this.getBooks(userContext);
         List<Book> updatedBooks = actualBooks.stream()

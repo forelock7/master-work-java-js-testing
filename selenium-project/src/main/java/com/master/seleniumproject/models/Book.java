@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Book {
 
     @JsonProperty("id")
-    private int id;
+    private Integer id;
     @JsonProperty("title")
     private String title;
     @JsonProperty("author")
@@ -25,20 +25,16 @@ public class Book {
         this.year = year;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getAuthor() {
