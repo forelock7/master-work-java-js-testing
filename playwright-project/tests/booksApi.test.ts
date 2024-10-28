@@ -1,7 +1,7 @@
-import { customTest as test } from '@fixtures/customTest.fixture';
-import { BooksApiSteps } from '@steps/api/books.api.steps';
-import { v4 as uuid_v4 } from 'uuid';
-import { Book } from '@models/book';
+import {customTest as test} from '@fixtures/customTest.fixture';
+import {BooksApiSteps} from '@steps/api/books.api.steps';
+import {v4 as uuid_v4} from 'uuid';
+import {Book} from '@models/book';
 
 test.describe('Create book via API', () => {
     const bookTitle: string = `pw-api-create-book-${uuid_v4().slice(0, 8)}`;
@@ -16,7 +16,7 @@ test.describe('Create book via API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('create', async ({ userContext }) => {
+    test('Create book via API', async ({ userContext }) => {
         await BooksApiSteps.createBook(userContext, book);
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
     });
@@ -39,7 +39,7 @@ test.describe('Update book via API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('update', async ({ userContext }) => {
+    test('Update book via API', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
             ...book,
@@ -63,7 +63,7 @@ test.describe('Delete book via API', () => {
         await BooksApiSteps.createBook(userContext, book);
     });
 
-    test('delete', async ({ userContext }) => {
+    test('Delete book via API', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
         await BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);

@@ -89,7 +89,7 @@ public class BooksUiTest {
     }
 
     @Test
-    public void createBook() {
+    public void createBookUI() {
         this.bookFormSteps.addBook(bookToCreate);
 
         List<String> rows = List.of(bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear());
@@ -97,7 +97,7 @@ public class BooksUiTest {
     }
 
     @Test
-    public void updateBook() {
+    public void updateBookUI() {
         List<String> rows = List.of(bookToUpdate.getTitle() + " " + bookToUpdate.getAuthor() + " " + bookToUpdate.getGenre() + " " + bookToUpdate.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
 
@@ -109,7 +109,7 @@ public class BooksUiTest {
     }
 
     @Test
-    public void deleteBook() {
+    public void deleteBookUI() {
         List<String> rows = List.of(bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
         Book book = this.booksApiSteps.getBookByTitle(userContext, bookToDelete.getTitle());

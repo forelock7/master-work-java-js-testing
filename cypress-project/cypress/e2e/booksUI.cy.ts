@@ -18,7 +18,7 @@ describe('Create book via UI', () => {
     afterEach(() => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
-    it('create', () => {
+    it('', () => {
         LoginPageSteps.login(userContext);
         BookFormSteps.addBook(book);
         BooksTableSteps.verifyRowsArePresent([
@@ -44,7 +44,7 @@ describe('Update book via UI', () => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
         if (updatedBook) BooksApiSteps.deleteBookByTitle(userContext, updatedBook.title);
     });
-    it('update', () => {
+    it('', () => {
         LoginPageSteps.login(userContext);
         BooksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,
@@ -75,7 +75,7 @@ describe('Delete book via UI', () => {
     afterEach(() => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
-    it('delete', () => {
+    it('', () => {
         LoginPageSteps.login(userContext);
         BooksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,

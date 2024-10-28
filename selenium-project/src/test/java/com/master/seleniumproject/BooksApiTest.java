@@ -56,13 +56,13 @@ public class BooksApiTest {
     }
 
     @Test
-    public void createBook() {
+    public void createBookAPI() {
         booksApiSteps.createBook(userContext, bookToCreate);
         booksApiSteps.verifyBookIsPresent(userContext, bookToCreate);
     }
 
     @Test
-    public void updateBook() throws Exception {
+    public void updateBookAPI() throws Exception {
         booksApiSteps.verifyBookIsPresent(userContext, bookToUpdate);
         newlyUpdatedBook = new Book(bookToUpdate.getTitle(), "UPDATED", bookToUpdate.getGenre(), bookToUpdate.getYear());
         booksApiSteps.updateBook(userContext, newlyUpdatedBook);
@@ -70,7 +70,7 @@ public class BooksApiTest {
     }
 
     @Test
-    public void deleteBook() {
+    public void deleteBookAPI() {
         booksApiSteps.verifyBookIsPresent(userContext, bookToDelete);
         booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
 
