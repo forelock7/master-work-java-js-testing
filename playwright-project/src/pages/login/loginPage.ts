@@ -1,6 +1,6 @@
-import {Locator, Page} from '@playwright/test';
-import {BasePage} from '@pages/basePage';
-import {ElementState} from '@constants/elementState';
+import { Locator, Page } from '@playwright/test';
+import { BasePage } from '@pages/basePage';
+import { ElementState } from '@constants/elementState';
 
 export class LoginPage extends BasePage {
     constructor(
@@ -12,8 +12,8 @@ export class LoginPage extends BasePage {
         super(page);
     }
 
-    async openLoginPage(loginPageUrl: string): Promise<void> {
-        await this.openURL(loginPageUrl);
+    async openLoginPage(): Promise<void> {
+        await this.openURL('/');
     }
 
     async fillUsernameInput(username: string): Promise<void> {

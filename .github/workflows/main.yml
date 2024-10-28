@@ -80,7 +80,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
-      HOST: ${{secrets.TEST_HOST}}
+      BASE_URL: ${{secrets.TEST_BASE_URL}}
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
     steps:
@@ -114,7 +114,7 @@ jobs:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
-      HOST: ${{secrets.TEST_HOST}}
+      BASE_URL: ${{secrets.TEST_BASE_URL}}
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
       IS_HEADLESS: true
