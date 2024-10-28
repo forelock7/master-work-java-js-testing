@@ -88,6 +88,13 @@
                             <value>${project.build.directory}/allure-results</value>
                         </property>
                     </systemProperties>
+                    <properties>
+                        <!-- Enable TestNG's listeners -->
+                        <property>
+                            <name>listener</name>
+                            <value>com.master.seleniumproject.config.JsonReportListener</value>
+                        </property>
+                    </properties>
                 </configuration>
                 <dependencies>
                     <dependency>

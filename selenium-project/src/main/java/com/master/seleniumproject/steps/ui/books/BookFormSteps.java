@@ -16,7 +16,6 @@ public class BookFormSteps {
         this.fillAuthorInput(book.getAuthor());
         this.fillGenreInput(book.getGenre());
         this.fillYearInput(book.getYear());
-
         this.clickAddUpdateButton();
     }
 

@@ -1,7 +1,7 @@
-import { customTest as test } from '@fixtures/customTest.fixture';
-import { BooksApiSteps } from '@steps/api/books.api.steps';
-import { v4 as uuid_v4 } from 'uuid';
-import { Book } from '@models/book';
+import {customTest as test} from '@fixtures/customTest.fixture';
+import {BooksApiSteps} from '@steps/api/books.api.steps';
+import {v4 as uuid_v4} from 'uuid';
+import {Book} from '@models/book';
 
 test.describe('Create book via UI', () => {
     const bookTitle: string = `pw-ui-create-book-${uuid_v4().slice(0, 8)}`;
@@ -16,7 +16,12 @@ test.describe('Create book via UI', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('create', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
+    test('Create book via UI', async ({
+        userContext,
+        loginPageSteps,
+        bookFormSteps,
+        booksTableSteps,
+    }) => {
         await loginPageSteps.logIn(userContext);
         await bookFormSteps.addBook(book);
         await booksTableSteps.verifyRowsArePresent([
@@ -42,7 +47,12 @@ test.describe('Update book via UI', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('update', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
+    test('Update book via UI', async ({
+        userContext,
+        loginPageSteps,
+        bookFormSteps,
+        booksTableSteps,
+    }) => {
         await loginPageSteps.logIn(userContext);
         await booksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,
@@ -78,7 +88,12 @@ test.describe('Delete book via UI', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('delete', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
+    test('Delete book via UI', async ({
+        userContext,
+        loginPageSteps,
+        bookFormSteps,
+        booksTableSteps,
+    }) => {
         await loginPageSteps.logIn(userContext);
         await booksTableSteps.verifyRowsArePresent([
             `${book.title} ${book.author} ${book.genre} ${book.year}`,

@@ -25,16 +25,16 @@ public class BooksApiTest {
     public void setUp(ITestResult result) {
         booksApiSteps = new BooksApiSteps();
         userContext = new UserContext(USERNAME, PASSWORD);
-        if ("createBook".equals(result.getMethod().getMethodName())) {
+        if ("createBookAPI".equals(result.getMethod().getMethodName())) {
             String bookTitle = "se-api-create-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToCreate = new Book(bookTitle, "George Heineman", "Study", 2021);
         }
-        if ("updateBook".equals(result.getMethod().getMethodName())) {
+        if ("updateBookAPI".equals(result.getMethod().getMethodName())) {
             String bookTitle = "se-api-update-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToUpdate = new Book(bookTitle, "Markus Eisele, Natale Vinto", "Study", 2023);
             booksApiSteps.createBook(userContext, bookToUpdate);
         }
-        if ("deleteBook".equals(result.getMethod().getMethodName())) {
+        if ("deleteBookAPI".equals(result.getMethod().getMethodName())) {
             String bookTitle = "se-api-delete-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToDelete = new Book(bookTitle, "Boni Garcia", "Study", 2022);
             booksApiSteps.createBook(userContext, bookToDelete);
@@ -43,26 +43,26 @@ public class BooksApiTest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        if ("createBook".equals(result.getMethod().getMethodName())) {
+        if ("createBookAPI".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToCreate.getTitle());
         }
-        if ("updateBook".equals(result.getMethod().getMethodName())) {
+        if ("updateBookAPI".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToUpdate.getTitle());
             booksApiSteps.deleteBookByTitle(userContext, newlyUpdatedBook.getTitle());
         }
-        if ("deleteBook".equals(result.getMethod().getMethodName())) {
+        if ("deleteBookAPI".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
         }
     }
 
     @Test
-    public void createBook() {
+    public void createBookAPI() {
         booksApiSteps.createBook(userContext, bookToCreate);
         booksApiSteps.verifyBookIsPresent(userContext, bookToCreate);
     }
 
     @Test
-    public void updateBook() throws Exception {
+    public void updateBookAPI() throws Exception {
         booksApiSteps.verifyBookIsPresent(userContext, bookToUpdate);
         newlyUpdatedBook = new Book(bookToUpdate.getTitle(), "UPDATED", bookToUpdate.getGenre(), bookToUpdate.getYear());
         booksApiSteps.updateBook(userContext, newlyUpdatedBook);
@@ -70,7 +70,7 @@ public class BooksApiTest {
     }
 
     @Test
-    public void deleteBook() {
+    public void deleteBookAPI() {
         booksApiSteps.verifyBookIsPresent(userContext, bookToDelete);
         booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
 

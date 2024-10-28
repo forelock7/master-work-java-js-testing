@@ -1,4 +1,4 @@
-import { defineConfig, devices, ReporterDescription } from '@playwright/test';
+import {defineConfig, devices, ReporterDescription} from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -11,7 +11,8 @@ import { defineConfig, devices, ReporterDescription } from '@playwright/test';
 function getReports(): ReporterDescription[] {
     return [
         ['html', { outputFolder: 'reports/html-report', open: 'on-failure' }],
-        ['junit', { outputFile: 'reports/junit/results.xml' }],
+        ['junit', { outputFile: 'reports/junit/report.xml' }],
+        ['playwright-ctrf-json-reporter', { outputDir: 'reports', outputFile: 'ctrf-report.json' }],
         ['./src/reporting/logReporting.ts'],
     ];
 }
