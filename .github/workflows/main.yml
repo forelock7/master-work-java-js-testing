@@ -101,7 +101,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: playwright-project/playwright-report/
+          path: playwright-project/reports/
           retention-days: 30
 
   selenium-tests:

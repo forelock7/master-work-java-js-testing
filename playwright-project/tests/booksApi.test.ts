@@ -1,10 +1,10 @@
-import {customTest as test} from '@fixtures/customTest.fixture';
-import {BooksApiSteps} from '@steps/api/books.api.steps';
-import {v4 as uuid_v4} from 'uuid';
-import {Book} from '@models/book';
+import { customTest as test } from '@fixtures/customTest.fixture';
+import { BooksApiSteps } from '@steps/api/books.api.steps';
+import { v4 as uuid_v4 } from 'uuid';
+import { Book } from '@models/book';
 
-test.describe('Create book by API', () => {
-    const bookTitle: string = `update-book-${uuid_v4().slice(0, 8)}`;
+test.describe('Create book via API', () => {
+    const bookTitle: string = `pw-api-create-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,
         author: 'Mark Twain',
@@ -16,14 +16,14 @@ test.describe('Create book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Create book by API', async ({ userContext }) => {
+    test('create', async ({ userContext }) => {
         await BooksApiSteps.createBook(userContext, book);
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
     });
 });
 
-test.describe('Update book by API', () => {
-    const bookTitle: string = `update-book-${uuid_v4().slice(0, 8)}`;
+test.describe('Update book via API', () => {
+    const bookTitle: string = `pw-api-update-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,
         author: 'Stephen King',
@@ -39,7 +39,7 @@ test.describe('Update book by API', () => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
 
-    test('Update book by API', async ({ userContext }) => {
+    test('update', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
             title: bookTitle,
@@ -52,8 +52,8 @@ test.describe('Update book by API', () => {
     });
 });
 
-test.describe('Delete book by API', () => {
-    const bookTitle: string = `delete-book-${uuid_v4().slice(0, 8)}`;
+test.describe('Delete book via API', () => {
+    const bookTitle: string = `pw-api-delete-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
         title: bookTitle,
         author: 'Nicholas Sparks',
@@ -65,7 +65,7 @@ test.describe('Delete book by API', () => {
         await BooksApiSteps.createBook(userContext, book);
     });
 
-    test('Delete book by API', async ({ userContext }) => {
+    test('delete', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
         await BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);

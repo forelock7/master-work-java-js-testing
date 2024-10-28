@@ -8,6 +8,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.UUID;
+
 import static com.master.seleniumproject.config.EnvConfigs.PASSWORD;
 import static com.master.seleniumproject.config.EnvConfigs.USERNAME;
 
@@ -24,14 +26,17 @@ public class BooksApiTest {
         booksApiSteps = new BooksApiSteps();
         userContext = new UserContext(USERNAME, PASSWORD);
         if ("createBook".equals(result.getMethod().getMethodName())) {
-            bookToCreate = new Book("Learning Algorithms: A Programmer's Guide to Writing Better Code.", "George Heineman", "Study", 2021);
+            String bookTitle = "se-api-create-book-" + UUID.randomUUID().toString().substring(0, 8);
+            bookToCreate = new Book(bookTitle, "George Heineman", "Study", 2021);
         }
         if ("updateBook".equals(result.getMethod().getMethodName())) {
-            bookToUpdate = new Book("Modernizing Enterprise Java", "Markus Eisele, Natale Vinto", "Study", 2023);
+            String bookTitle = "se-api-update-book-" + UUID.randomUUID().toString().substring(0, 8);
+            bookToUpdate = new Book(bookTitle, "Markus Eisele, Natale Vinto", "Study", 2023);
             booksApiSteps.createBook(userContext, bookToUpdate);
         }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
-            bookToDelete = new Book("Hands-On Selenium WebDriver with Java", "Boni Garcia", "Study", 2022);
+            String bookTitle = "se-api-delete-book-" + UUID.randomUUID().toString().substring(0, 8);
+            bookToDelete = new Book(bookTitle, "Boni Garcia", "Study", 2022);
             booksApiSteps.createBook(userContext, bookToDelete);
         }
     }
@@ -58,7 +63,7 @@ public class BooksApiTest {
     @Test
     public void updateBook() throws Exception {
         booksApiSteps.verifyBookIsPresent(userContext, bookToUpdate);
-        newlyUpdatedBook = new Book("Modernizing Enterprise Java", "UPDATEDMarkus Eisele, Natale Vinto", "Study", 2023);
+        newlyUpdatedBook = new Book(bookToUpdate.getTitle(), "UPDATED", bookToUpdate.getGenre(), bookToUpdate.getYear());
         booksApiSteps.updateBook(userContext, newlyUpdatedBook);
         booksApiSteps.verifyBookIsPresent(userContext, newlyUpdatedBook);
     }
