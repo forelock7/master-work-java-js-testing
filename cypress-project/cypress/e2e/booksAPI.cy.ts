@@ -39,10 +39,8 @@ describe('Update book via API', () => {
     it('update', () => {
         BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
-            title: bookTitle,
-            author: 'UPDATEMartin Kleppmann',
-            year: 2000,
-            genre: 'Education',
+            ...book,
+            author: 'UPDATED',
         };
         BooksApiSteps.updateBook(userContext, updatedBook);
         BooksApiSteps.verifyBooksArePresent(userContext, [updatedBook]);

@@ -27,6 +27,39 @@ describe('Create book via UI', () => {
     });
 });
 
+describe('Update book via UI', () => {
+    const userContext = new UserContext();
+    const bookTitle: string = `cy-ui-update-book-${uuid_v4().slice(0, 8)}`;
+    const book: Book = {
+        title: bookTitle,
+        author: 'Mark June',
+        year: 1975,
+        genre: 'Roman',
+    };
+    let updatedBook: Book;
+    beforeEach(() => {
+        BooksApiSteps.createBook(userContext, book);
+    });
+    afterEach(() => {
+        BooksApiSteps.deleteBookByTitle(userContext, book.title);
+        if (updatedBook) BooksApiSteps.deleteBookByTitle(userContext, updatedBook.title);
+    });
+    it('update', () => {
+        LoginPageSteps.login(userContext);
+        BooksTableSteps.verifyRowsArePresent([
+            `${book.title} ${book.author} ${book.genre} ${book.year}`,
+        ]);
+        updatedBook = {
+            ...book,
+            author: 'UPDATED',
+        };
+        BookFormSteps.updateBook(updatedBook);
+        BooksTableSteps.verifyRowsArePresent([
+            `${updatedBook.title} ${updatedBook.author} ${updatedBook.genre} ${updatedBook.year}`,
+        ]);
+    });
+});
+
 describe('Delete book via UI', () => {
     const userContext = new UserContext();
     const bookTitle: string = `cy-ui-delete-book-${uuid_v4().slice(0, 8)}`;
