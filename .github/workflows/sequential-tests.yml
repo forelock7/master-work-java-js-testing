@@ -8,7 +8,6 @@ on:
 
 jobs:
   build2:
-    name: Build
     runs-on: ubuntu-latest
     env:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
@@ -34,7 +33,6 @@ jobs:
       run: docker push forelock/master-work-app:latest
 
   deployTesting2:
-    name: Deploy Testing Env
     needs: build
     runs-on: self-hosted
     steps:
@@ -75,7 +73,6 @@ jobs:
         sudo docker run -d --restart always -p 8080:8080 -p 5005:5005 --name master-work-app-container --network local forelock/master-work-app
 
   playwright-tests2:
-    name: Playwright Tests
     needs: deployTesting
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -109,7 +106,6 @@ jobs:
           retention-days: 30
 
   selenium-tests2:
-    name: Selenium Tests
     needs: playwright-tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -135,7 +131,6 @@ jobs:
         if: always()
 
   cypress-tests2:
-    name: Cypress Tests
     needs: selenium-tests
     timeout-minutes: 10
     runs-on: ubuntu-latest
