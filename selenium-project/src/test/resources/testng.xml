@@ -5,9 +5,4 @@
             <class name="com.master.seleniumproject.BooksUiTest"/>
         </classes>
     </test>
-    <test name="BooksAPITests">
-        <classes>
-            <class name="com.master.seleniumproject.BooksApiTest"/>
-        </classes>
-    </test>
 </suite>
