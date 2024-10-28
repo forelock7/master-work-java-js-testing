@@ -90,7 +90,8 @@ public class BooksUiTest {
         this.bookFormSteps.addBook(bookToDelete);
         List<String> rows = List.of(bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
-
+        Book book = this.booksApiSteps.getBookByTitle(userContext, bookToDelete.getTitle());
+        this.booksTableSteps.deleteBookById(book.getId());
         this.booksTableSteps.verifyRowsAreAbsent(rows);
     }
 }

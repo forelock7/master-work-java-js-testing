@@ -44,4 +44,8 @@ public class BooksTableSteps {
                     Assertions.assertThat(actualRows).doesNotContainAnyElementsOf(rows);
                 });
     }
+
+    public void deleteBookById(int bookId) {
+        this.booksTable.clickDeleteBookButton(bookId);
+    }
 }
