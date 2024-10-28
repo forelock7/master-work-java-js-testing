@@ -33,6 +33,7 @@ public class BooksUiTest {
     private UserContext userContext;
     private Book bookToCreate;
     private Book bookToUpdate;
+    private Book newlyUpdatedBook;
     private Book bookToDelete;
 
     @BeforeMethod
@@ -69,6 +70,7 @@ public class BooksUiTest {
             bookToDelete = new Book(bookTitle, "Jack London", "Novels", 2008);
             booksApiSteps.createBook(userContext, bookToDelete);
         }
+        this.loginPageSteps.logIn(userContext);
     }
 
     @AfterMethod
@@ -78,6 +80,7 @@ public class BooksUiTest {
         }
         if ("updateBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToUpdate.getTitle());
+            if (newlyUpdatedBook != null) booksApiSteps.deleteBookByTitle(userContext, newlyUpdatedBook.getTitle());
         }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
@@ -87,7 +90,6 @@ public class BooksUiTest {
 
     @Test
     public void createBook() {
-        this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(bookToCreate);
 
         List<String> rows = List.of(bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear());
@@ -96,17 +98,18 @@ public class BooksUiTest {
 
     @Test
     public void updateBook() {
-        this.loginPageSteps.logIn(userContext);
         List<String> rows = List.of(bookToUpdate.getTitle() + " " + bookToUpdate.getAuthor() + " " + bookToUpdate.getGenre() + " " + bookToUpdate.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
-        Book book = this.booksApiSteps.getBookByTitle(userContext, bookToUpdate.getTitle());
+
+        newlyUpdatedBook = new Book(bookToUpdate.getTitle(), "UPDATED", bookToUpdate.getGenre(), bookToUpdate.getYear());
+
+        Book book = this.booksApiSteps.getBookByTitle(userContext, newlyUpdatedBook.getTitle());
         this.booksTableSteps.deleteBookById(book.getId());
         this.booksTableSteps.verifyRowsAreAbsent(rows);
     }
 
     @Test
     public void deleteBook() {
-        this.loginPageSteps.logIn(userContext);
         List<String> rows = List.of(bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
         Book book = this.booksApiSteps.getBookByTitle(userContext, bookToDelete.getTitle());

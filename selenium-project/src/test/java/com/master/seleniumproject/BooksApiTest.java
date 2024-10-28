@@ -48,6 +48,7 @@ public class BooksApiTest {
         }
         if ("updateBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToUpdate.getTitle());
+            booksApiSteps.deleteBookByTitle(userContext, newlyUpdatedBook.getTitle());
         }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());

@@ -20,6 +20,10 @@ public class BookFormSteps {
         this.clickAddUpdateButton();
     }
 
+    public void updateBook(Book book) {
+        this.addBook(book);
+    }
+
     public void fillTitleInput(String title) {
         this.bookForm.fillTitleInput( title);
     }
