@@ -12,7 +12,6 @@ jobs:
     env:
       DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-
     steps:
     - uses: actions/checkout@v4
     - name: Cache Docker layers
@@ -36,7 +35,6 @@ jobs:
   deploy:
     needs: build
     runs-on: self-hosted
-
     steps:
     - name: Clean up Docker to free up space
       run: sudo docker system prune -af
@@ -82,13 +80,11 @@ jobs:
       HOST: ${{secrets.TEST_HOST}}
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
       - name: Install dependencies
         run: npm ci
         working-directory: playwright-project
@@ -98,8 +94,8 @@ jobs:
       - name: Playwright test run
         run: npx playwright test
         working-directory: playwright-project
-      - name: Run CTRF annotations
-        run: npx github-actions-ctrf ctrf-results.json
+      - name: Publish summary CTRF report with
+        run: npx github-actions-ctrf ctrf-report.json
         working-directory: playwright-project/reports/
         if: always()
       - uses: actions/upload-artifact@v4
@@ -118,7 +114,6 @@ jobs:
       USERNAME: ${{secrets.ADMIN_USERNAME}}
       PASSWORD: ${{secrets.ADMIN_PASSWORD}}
       IS_HEADLESS: true
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -127,10 +122,13 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-
       - name: Selenium test run
         run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
         working-directory: selenium-project
+      - name: Publish summary CTRF report with
+        run: npx github-actions-ctrf ctrf-report.json
+        working-directory: selenium-project/target/
+        if: always()
 
   cypress-tests:
     needs: deploy
@@ -140,7 +138,6 @@ jobs:
       CYPRESS_BASE_URL: ${{secrets.TEST_BASE_URL}}
       CYPRESS_USERNAME: ${{secrets.ADMIN_USERNAME}}
       CYPRESS_PASSWORD: ${{secrets.ADMIN_PASSWORD}}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
