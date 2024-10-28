@@ -146,4 +146,9 @@ jobs:
         with:
           start: npm start
           browser: chrome
+          publish-summary: false
           working-directory: cypress-project
+      - name: Publish summary CTRF report with
+        run: npx github-actions-ctrf ctrf-report.json
+        working-directory: cypress-project/reports/
+        if: always()
