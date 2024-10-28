@@ -15,7 +15,7 @@ export class LoginPageSteps extends BrowserSteps {
 
     logIn = async (userContext: UserContext): Promise<void> => {
         await test.step(`Log in as '${userContext.email}' user`, async () => {
-            await this.loginPage.openLoginPage(userContext.baseUrl);
+            await this.loginPage.openLoginPage();
             await this.fillUsernameField(userContext.email);
             await this.fillPasswordField(userContext.password);
             await this.clickLoginButton();

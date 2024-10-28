@@ -1,9 +1,7 @@
-import {Role} from '@constants/role';
-import {envConfig} from '@config/env.config';
+import { Role } from '@constants/role';
 
 export class UserContext {
     token?: string;
-    private _baseUrl?: string;
 
     constructor(
         public username: string,
@@ -15,17 +13,5 @@ export class UserContext {
         this.password = password;
         this.role = role;
         this.email = email;
-    }
-
-    get baseUrl() {
-        if (this._baseUrl) {
-            return this._baseUrl;
-        } else {
-            return `${envConfig.getClientUrl()}`;
-        }
-    }
-
-    set baseUrl(url: string) {
-        this._baseUrl = url;
     }
 }
