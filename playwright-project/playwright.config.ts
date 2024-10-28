@@ -12,7 +12,10 @@ function getReports(): ReporterDescription[] {
     return [
         ['html', { outputFolder: 'reports/html-report', open: 'on-failure' }],
         ['junit', { outputFile: 'reports/junit/results.xml' }],
-        ['json', { outputFile: 'reports/results.json' }],
+        [
+            'playwright-ctrf-json-reporter',
+            { outputDir: 'reports', outputFile: 'ctrf-results.json' },
+        ],
         ['./src/reporting/logReporting.ts'],
     ];
 }
