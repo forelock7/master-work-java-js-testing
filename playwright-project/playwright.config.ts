@@ -1,4 +1,4 @@
-import { defineConfig, devices, ReporterDescription } from '@playwright/test';
+import {defineConfig, devices, ReporterDescription} from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -12,6 +12,7 @@ function getReports(): ReporterDescription[] {
     return [
         ['html', { outputFolder: 'reports/html-report', open: 'on-failure' }],
         ['junit', { outputFile: 'reports/junit/results.xml' }],
+        ['json', { outputFile: 'reports/results.json' }],
         ['./src/reporting/logReporting.ts'],
     ];
 }
