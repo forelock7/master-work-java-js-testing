@@ -1,4 +1,4 @@
-name: CI/CD sequential
+name: Sequential tests
 
 on:
   push:
