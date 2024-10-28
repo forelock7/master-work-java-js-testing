@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  build:
+  buildSample:
 
     runs-on: ubuntu-latest
 
