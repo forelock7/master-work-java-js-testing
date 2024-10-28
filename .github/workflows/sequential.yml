@@ -33,9 +33,9 @@ jobs:
     - name: Push App image to Dockerhub  
       run: docker push forelock/master-work-app:latest
 
-  deploy:
+  deployTesting:
     name: Deploy Testing Env
-    needs: Build
+    needs: build
     runs-on: self-hosted
     steps:
     - name: Clean up Docker to free up space
@@ -76,7 +76,7 @@ jobs:
 
   playwright-tests:
     name: Playwright Tests
-    needs: deploy
+    needs: deployTesting
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
