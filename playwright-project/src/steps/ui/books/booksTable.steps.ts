@@ -58,4 +58,14 @@ export class BooksTableSteps extends BrowserSteps {
             await this.booksTable.clickDeleteBookButton(bookId);
         });
     };
+
+    /**
+     * Clicks 'Edit' button for book in Books table
+     * @param bookId
+     */
+    clickEditButton = async (bookId: number): Promise<void> => {
+        await test.step(`Click 'Edit' button book for '${bookId}' ID on 'Books' page`, async () => {
+            await this.booksTable.clickEditBookButton(bookId);
+        });
+    };
 }

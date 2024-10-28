@@ -94,7 +94,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: playwright-project
-      - name: Run Playwright tests
+      - name: Playwright test run
         run: npx playwright test
         working-directory: playwright-project
       - uses: actions/upload-artifact@v4
@@ -123,7 +123,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven
+      - name: Selenium test run
         run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
         working-directory: selenium-project
 
@@ -139,12 +139,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
+      - name: Cypress test run
         uses: cypress-io/github-action@v6
         with:
-#          build: npm run build
           start: npm start
           browser: chrome
           working-directory: cypress-project

@@ -32,6 +32,8 @@ public class BooksUiTest {
     private BooksApiSteps booksApiSteps;
     private UserContext userContext;
     private Book bookToCreate;
+    private Book bookToUpdate;
+    private Book newlyUpdatedBook;
     private Book bookToDelete;
 
     @BeforeMethod
@@ -58,16 +60,27 @@ public class BooksUiTest {
             String bookTitle = "se-ui-create-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToCreate = new Book(bookTitle, "Joshua Bloch", "Science", 2018);
         }
+        if ("updateBook".equals(result.getMethod().getMethodName())) {
+            String bookTitle = "se-ui-update-book-" + UUID.randomUUID().toString().substring(0, 8);
+            bookToUpdate = new Book(bookTitle, "Jane Doe", "Novels", 2011);
+            booksApiSteps.createBook(userContext, bookToUpdate);
+        }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
             String bookTitle = "se-ui-delete-book-" + UUID.randomUUID().toString().substring(0, 8);
             bookToDelete = new Book(bookTitle, "Jack London", "Novels", 2008);
+            booksApiSteps.createBook(userContext, bookToDelete);
         }
+        this.loginPageSteps.logIn(userContext);
     }
 
     @AfterMethod
     public void tearDown(ITestResult result) {
         if ("createBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToCreate.getTitle());
+        }
+        if ("updateBook".equals(result.getMethod().getMethodName())) {
+            booksApiSteps.deleteBookByTitle(userContext, bookToUpdate.getTitle());
+            if (newlyUpdatedBook != null) booksApiSteps.deleteBookByTitle(userContext, newlyUpdatedBook.getTitle());
         }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
@@ -77,7 +90,6 @@ public class BooksUiTest {
 
     @Test
     public void createBook() {
-        this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(bookToCreate);
 
         List<String> rows = List.of(bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear());
@@ -85,9 +97,19 @@ public class BooksUiTest {
     }
 
     @Test
+    public void updateBook() {
+        List<String> rows = List.of(bookToUpdate.getTitle() + " " + bookToUpdate.getAuthor() + " " + bookToUpdate.getGenre() + " " + bookToUpdate.getYear());
+        this.booksTableSteps.verifyRowsArePresent(rows);
+
+        newlyUpdatedBook = new Book(bookToUpdate.getTitle(), "UPDATED", bookToUpdate.getGenre(), bookToUpdate.getYear());
+
+        Book book = this.booksApiSteps.getBookByTitle(userContext, newlyUpdatedBook.getTitle());
+        this.booksTableSteps.deleteBookById(book.getId());
+        this.booksTableSteps.verifyRowsAreAbsent(rows);
+    }
+
+    @Test
     public void deleteBook() {
-        this.loginPageSteps.logIn(userContext);
-        this.bookFormSteps.addBook(bookToDelete);
         List<String> rows = List.of(bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
         Book book = this.booksApiSteps.getBookByTitle(userContext, bookToDelete.getTitle());

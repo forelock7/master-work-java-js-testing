@@ -42,10 +42,8 @@ test.describe('Update book via API', () => {
     test('update', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
-            title: bookTitle,
-            author: 'Stephen King',
-            year: 2016,
-            genre: 'Horror',
+            ...book,
+            author: 'UPDATED',
         };
         await BooksApiSteps.updateBook(userContext, updatedBook);
         await BooksApiSteps.verifyBooksArePresent(userContext, [updatedBook]);

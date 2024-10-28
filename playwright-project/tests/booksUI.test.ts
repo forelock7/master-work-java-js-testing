@@ -25,6 +25,42 @@ test.describe('Create book via UI', () => {
     });
 });
 
+test.describe('Update book via UI', () => {
+    const bookTitle: string = `pw-ui-update-book-${uuid_v4().slice(0, 8)}`;
+    const book: Book = {
+        title: bookTitle,
+        author: 'John Smith',
+        year: 1986,
+        genre: 'Novels',
+    };
+
+    test.beforeEach(async ({ userContext }) => {
+        await BooksApiSteps.createBook(userContext, book);
+    });
+
+    test.afterEach(async ({ userContext }) => {
+        await BooksApiSteps.deleteBookByTitle(userContext, book.title);
+    });
+
+    test('update', async ({ userContext, loginPageSteps, bookFormSteps, booksTableSteps }) => {
+        await loginPageSteps.logIn(userContext);
+        await booksTableSteps.verifyRowsArePresent([
+            `${book.title} ${book.author} ${book.genre} ${book.year}`,
+        ]);
+
+        const updatedBook: Book = {
+            ...book,
+            author: 'UPDATED',
+        };
+        const b = await BooksApiSteps.getBookByTitle(userContext, book.title);
+        await booksTableSteps.clickEditButton(b?.id!);
+        await bookFormSteps.updateBook(updatedBook);
+        await booksTableSteps.verifyRowsAreAbsent([
+            `${updatedBook.title} ${updatedBook.author} ${updatedBook.genre} ${updatedBook.year}`,
+        ]);
+    });
+});
+
 test.describe('Delete book via UI', () => {
     const bookTitle: string = `pw-ui-delete-book-${uuid_v4().slice(0, 8)}`;
     const book: Book = {
