@@ -1,7 +1,7 @@
-import {customTest as test} from '@fixtures/customTest.fixture';
-import {BooksApiSteps} from '@steps/api/books.api.steps';
-import {v4 as uuid_v4} from 'uuid';
-import {Book} from '@models/book';
+import { customTest as test } from '@fixtures/customTest.fixture';
+import { BooksApiSteps } from '@steps/api/books.api.steps';
+import { v4 as uuid_v4 } from 'uuid';
+import { Book } from '@models/book';
 
 test.describe('Create book via UI', () => {
     const bookTitle: string = `pw-ui-create-book-${uuid_v4().slice(0, 8)}`;
@@ -38,6 +38,7 @@ test.describe('Update book via UI', () => {
         year: 1986,
         genre: 'Novels',
     };
+    let updatedBook: Book;
 
     test.beforeEach(async ({ userContext }) => {
         await BooksApiSteps.createBook(userContext, book);
@@ -45,6 +46,7 @@ test.describe('Update book via UI', () => {
 
     test.afterEach(async ({ userContext }) => {
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
+        await BooksApiSteps.deleteBookByTitle(userContext, updatedBook.title);
     });
 
     test('Update book via UI', async ({
@@ -58,7 +60,7 @@ test.describe('Update book via UI', () => {
             `${book.title} ${book.author} ${book.genre} ${book.year}`,
         ]);
 
-        const updatedBook: Book = {
+        updatedBook = {
             ...book,
             author: 'UPDATED',
         };

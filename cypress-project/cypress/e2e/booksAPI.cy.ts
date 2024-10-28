@@ -15,7 +15,7 @@ describe('Create book via API', () => {
     afterEach(() => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
-    it('', () => {
+    it('create', () => {
         BooksApiSteps.createBook(userContext, book);
         BooksApiSteps.verifyBooksArePresent(userContext, [book]);
     });
@@ -36,7 +36,7 @@ describe('Update book via API', () => {
     afterEach(() => {
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
     });
-    it('', () => {
+    it('update', () => {
         BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         const updatedBook: Book = {
             ...book,
@@ -59,7 +59,7 @@ describe('Delete book via API', () => {
     beforeEach(() => {
         BooksApiSteps.createBook(userContext, book);
     });
-    it('', () => {
+    it('delete', () => {
         BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         BooksApiSteps.deleteBookByTitle(userContext, book.title);
         BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);
