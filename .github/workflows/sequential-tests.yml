@@ -7,7 +7,7 @@ on:
 #    branches: [ "main" ]
 
 jobs:
-  build:
+  build2:
     name: Build
     runs-on: ubuntu-latest
     env:
@@ -33,7 +33,7 @@ jobs:
     - name: Push App image to Dockerhub  
       run: docker push forelock/master-work-app:latest
 
-  deployTesting:
+  deployTesting2:
     name: Deploy Testing Env
     needs: build
     runs-on: self-hosted
@@ -74,7 +74,7 @@ jobs:
         sudo docker rm -f master-work-app-container || true
         sudo docker run -d --restart always -p 8080:8080 -p 5005:5005 --name master-work-app-container --network local forelock/master-work-app
 
-  playwright-tests:
+  playwright-tests2:
     name: Playwright Tests
     needs: deployTesting
     timeout-minutes: 10
@@ -108,7 +108,7 @@ jobs:
           path: playwright-project/reports/
           retention-days: 30
 
-  selenium-tests:
+  selenium-tests2:
     name: Selenium Tests
     needs: playwright-tests
     timeout-minutes: 10
@@ -134,7 +134,7 @@ jobs:
         working-directory: selenium-project/target/
         if: always()
 
-  cypress-tests:
+  cypress-tests2:
     name: Cypress Tests
     needs: selenium-tests
     timeout-minutes: 10
