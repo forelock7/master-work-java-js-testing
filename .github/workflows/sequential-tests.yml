@@ -1,77 +1,12 @@
 name: Sequential tests
 
 on:
-#  push:
-#    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 #  pull_request:
 #    branches: [ "main" ]
 
 jobs:
-  build2:
-    runs-on: ubuntu-latest
-    env:
-      DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
-      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-    steps:
-    - uses: actions/checkout@v4
-    - name: Cache Docker layers
-      uses: actions/cache@v4
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-docker-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-docker-
-    - name: Login Dockerhub
-      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: Build DB Docker image
-      run: docker build ./app-project --file ./app-project/db/Dockerfile --tag forelock/master-work-db:latest
-    - name: Build App Docker image
-      run: docker build ./app-project --file ./app-project/tomcat/Dockerfile --tag forelock/master-work-app:latest
-    - name: Push DB image to Dockerhub  
-      run: docker push forelock/master-work-db:latest
-    - name: Push App image to Dockerhub  
-      run: docker push forelock/master-work-app:latest
-
-  deployTesting2:
-    needs: build
-    runs-on: self-hosted
-    steps:
-    - name: Clean up Docker to free up space
-      run: sudo docker system prune -af
-    - name: Ensure Docker network created
-      run: |
-        if [ ! "$(sudo docker network ls --filter name=^local$ --format='{{.Name}}')" ]; then
-          echo "Creating Docker network 'local'..."
-          sudo docker network create --driver bridge local
-        else
-          echo "Docker network 'local' already exists."
-        fi
-    - name: Run new DB docker container
-      run: |
-        sudo docker pull forelock/master-work-db
-        sudo docker rm -f master-work-db-container || true
-        sudo docker run -d --restart always -p 5432:5432 --name master-work-db-container --network local -v /home/ubuntu/master-work-app/db/data:/var/lib/postgresql/data forelock/master-work-db
-    - name: Run Adminer docker container
-      run: |
-        # Check if the container exists
-        if [ "$(sudo docker ps -q -f name=master-work-adminer-container)" ]; then
-          echo "Container 'master-work-adminer-container' is already running."
-        else
-          # Check if the container exists but is stopped, and start it
-          if [ "$(sudo docker ps -aq -f name=master-work-adminer-container)" ]; then
-            echo "Deleting existing container 'master-work-adminer-container'..."
-            sudo docker delete master-work-adminer-container
-          fi
-          # If the container does not exist, create and start it
-          echo "Creating and starting new container 'master-work-adminer-container'..."
-          sudo docker run -d --restart always -p 8081:8080 --name master-work-adminer-container --network local adminer:4.8.1
-        fi
-    - name: Run new App docker container
-      run: |
-        sudo docker pull forelock/master-work-app
-        sudo docker rm -f master-work-app-container || true
-        sudo docker run -d --restart always -p 8080:8080 -p 5005:5005 --name master-work-app-container --network local forelock/master-work-app
-
   playwright-tests2:
     needs: deployTesting
     timeout-minutes: 10
