@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 import static com.master.seleniumproject.config.EnvConfigs.BASE_URL;
@@ -70,7 +71,6 @@ public class BooksUiTest {
         }
         if ("deleteBook".equals(result.getMethod().getMethodName())) {
             booksApiSteps.deleteBookByTitle(userContext, bookToDelete.getTitle());
-            booksApiSteps.createBook(userContext, bookToDelete);
         }
         driver.quit();
     }
@@ -80,7 +80,7 @@ public class BooksUiTest {
         this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(bookToCreate);
 
-        String[] rows = {bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear()};
+        List<String> rows = List.of(bookToCreate.getTitle() + " " + bookToCreate.getAuthor() + " " + bookToCreate.getGenre() + " " + bookToCreate.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
     }
 
@@ -88,7 +88,7 @@ public class BooksUiTest {
     public void deleteBook() {
         this.loginPageSteps.logIn(userContext);
         this.bookFormSteps.addBook(bookToDelete);
-        String[] rows = {bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear()};
+        List<String> rows = List.of(bookToDelete.getTitle() + " " + bookToDelete.getAuthor() + " " + bookToDelete.getGenre() + " " + bookToDelete.getYear());
         this.booksTableSteps.verifyRowsArePresent(rows);
 
         this.booksTableSteps.verifyRowsAreAbsent(rows);

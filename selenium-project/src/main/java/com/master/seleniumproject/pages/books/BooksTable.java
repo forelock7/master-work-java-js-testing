@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class BooksTable extends AbstractPage {
 
@@ -17,12 +16,18 @@ public class BooksTable extends AbstractPage {
     @FindBy(css = "tbody[id='books-list'] tr")
     private List<WebElement> tableRow;
 
+    @FindBy(css = "button[class='update-book-button']")
+    private List<WebElement> editBookButton;
+
+    @FindBy(css = "button[class='delete-book-button']")
+    private List<WebElement> deleteBookButton;
+
     public BooksTable(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public String[] getRowsTextContents() {
-        return this.tableRow.stream().map(WebElement::getText).toArray(String[]::new);
+    public List<String> getRowsTextContents() {
+        return this.tableRow.stream().map(WebElement::getText).toList();
     }
 }
