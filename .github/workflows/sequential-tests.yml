@@ -57,7 +57,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Selenium test run
-        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng2.xml
         working-directory: selenium-project
       - name: Publish summary CTRF report with
         run: npx github-actions-ctrf ctrf-report.json

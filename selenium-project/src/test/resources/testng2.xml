@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="BooksTests">
+    <test name="BooksUITests">
+        <classes>
+            <class name="com.master.seleniumproject.BooksUiTest2"/>
+        </classes>
+    </test>
+    <test name="BooksAPITests">
+        <classes>
+            <class name="com.master.seleniumproject.BooksApiTest2"/>
+        </classes>
+    </test>
+</suite>
