@@ -1,4 +1,4 @@
-import { defineConfig, devices, ReporterDescription } from '@playwright/test';
+import {defineConfig, devices, ReporterDescription} from '@playwright/test';
 
 /**
  * Read environment variables from file.
@@ -49,9 +49,19 @@ export default defineConfig({
     /* Configure projects for major browsers */
     projects: [
         {
-            name: 'chromium',
+            name: 'test',
             use: { ...devices['Desktop Chrome'] },
+            testDir: 'tests/books',
         },
+        {
+            name: 'test2',
+            use: { ...devices['Desktop Chrome'] },
+            testDir: 'tests/books2',
+        },
+        // {
+        //     name: 'chromium',
+        //     use: { ...devices['Desktop Chrome'] },
+        // },
 
         // {
         //     name: 'firefox',

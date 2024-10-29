@@ -95,7 +95,7 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: playwright-project
       - name: Playwright test run
-        run: npx playwright test
+        run: npx playwright test --project=test
         working-directory: playwright-project
       - name: Publish summary CTRF report with
         run: npx github-actions-ctrf ctrf-report.json

@@ -63,6 +63,10 @@ test.describe('Delete book via API', () => {
         await BooksApiSteps.createBook(userContext, book);
     });
 
+    test.afterEach(async ({ userContext }) => {
+        await BooksApiSteps.deleteBookByTitle(userContext, book.title);
+    });
+
     test('Delete book via API', async ({ userContext }) => {
         await BooksApiSteps.verifyBooksArePresent(userContext, [book]);
         await BooksApiSteps.deleteBookByTitle(userContext, book.title);
