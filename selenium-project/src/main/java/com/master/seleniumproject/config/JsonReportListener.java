@@ -1,7 +1,9 @@
 // It was created to generate of CTRF json report for GitHub Actions test summary
 package com.master.seleniumproject.config;
+package com.example.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.testng.IConfigurationListener;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -13,89 +15,94 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonReportListener implements ITestListener {
+public class JsonReportListener implements ITestListener, IConfigurationListener {
 
-    // Store test details
     private List<Map<String, Object>> tests = new ArrayList<>();
-    private long startTime;
-    private long endTime;
+    private long suiteStartTime;
+    private long suiteEndTime;
+    private long testStartTime;
+    private long testEndTime;
+    private long beforeAfterDuration = 0;
 
     @Override
     public void onStart(ITestContext context) {
-        startTime = System.currentTimeMillis();  // Record the test suite start time
+        suiteStartTime = System.currentTimeMillis();  // Start of the suite
+    }
+
+    @Override
+    public void onTestStart(ITestResult result) {
+        testStartTime = System.currentTimeMillis();  // Start time for each test
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        tests.add(createTestResult(result, "passed"));
+        recordTestResult(result, "passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        tests.add(createTestResult(result, "failed"));
+        recordTestResult(result, "failed");
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        tests.add(createTestResult(result, "skipped"));
+        recordTestResult(result, "skipped");
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        endTime = System.currentTimeMillis();  // Record the test suite end time
+        suiteEndTime = System.currentTimeMillis();  // End of the suite
 
-        // Create the summary map
+        // Create summary data
         Map<String, Object> summary = new HashMap<>();
         summary.put("tests", tests.size());
         summary.put("passed", tests.stream().filter(t -> t.get("status").equals("passed")).count());
         summary.put("failed", tests.stream().filter(t -> t.get("status").equals("failed")).count());
-        summary.put("pending", 0);  // Modify as needed
         summary.put("skipped", tests.stream().filter(t -> t.get("status").equals("skipped")).count());
-        summary.put("other", 0);
-        summary.put("start", startTime);
-        summary.put("stop", endTime);
-        summary.put("suites", context.getAllTestMethods().length);  // Total test methods
+        summary.put("start", suiteStartTime);
+        summary.put("stop", suiteEndTime);
+        summary.put("totalTime", suiteEndTime - suiteStartTime + beforeAfterDuration);  // Include total time
 
-        // Create the results structure
+        // Build the full report
         Map<String, Object> results = new HashMap<>();
         results.put("tool", Map.of("name", "Selenium"));
         results.put("summary", summary);
         results.put("tests", tests);
 
-        // Serialize to JSON using Jackson
+        // Write to JSON
         ObjectMapper mapper = new ObjectMapper();
         try {
-            mapper.writeValue(new File("target/ctrf-report.json"), Map.of("results", results));
+            mapper.writeValue(new File("target/test-report.json"), Map.of("results", results));
             System.out.println("Report generated successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Helper method to create the test result structure
-    private Map<String, Object> createTestResult(ITestResult result, String status) {
+    @Override
+    public void beforeConfiguration(ITestResult result) {
+        // Record the start time of each @BeforeMethod or @AfterMethod call
+        beforeAfterDuration -= System.currentTimeMillis();
+    }
+
+    @Override
+    public void afterConfiguration(ITestResult result) {
+        // Add the time of @BeforeMethod or @AfterMethod to the duration
+        beforeAfterDuration += System.currentTimeMillis();
+    }
+
+    private void recordTestResult(ITestResult result, String status) {
+        testEndTime = System.currentTimeMillis();  // End time for each test
         Map<String, Object> testDetails = new HashMap<>();
         testDetails.put("name", result.getMethod().getMethodName());
         testDetails.put("status", status);
-        testDetails.put("duration", result.getEndMillis() - result.getStartMillis());
-        testDetails.put("start", result.getStartMillis());
-        testDetails.put("stop", result.getEndMillis());
+        testDetails.put("duration", testEndTime - testStartTime);
+        testDetails.put("start", testStartTime);
+        testDetails.put("stop", testEndTime);
         testDetails.put("rawStatus", status);
-        testDetails.put("tags", new ArrayList<>());  // You can modify this to add custom tags
-        testDetails.put("type", "e2e");  // Customize as per your need
-        testDetails.put("filePath", result.getTestClass().getName());  // Path to test class
-        testDetails.put("retries", 0);  // Customize as needed
-        testDetails.put("flaky", false);  // Customize as needed
-
-        // Capture steps (simulating steps, you can modify based on actual step capturing)
-        List<Map<String, String>> steps = new ArrayList<>();
-        steps.add(Map.of("name", "Step 1", "status", status));
-        steps.add(Map.of("name", "Step 2", "status", status));
-        testDetails.put("steps", steps);
-
+        testDetails.put("filePath", result.getTestClass().getName());
         testDetails.put("suite", result.getTestClass().getName() + " > " + result.getMethod().getMethodName());
-        testDetails.put("extra", Map.of("annotations", new ArrayList<>()));  // Customize as per need
 
-        return testDetails;
+        tests.add(testDetails);
     }
 }
