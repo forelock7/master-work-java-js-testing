@@ -19,18 +19,16 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
     private List<Map<String, Object>> tests = new ArrayList<>();
     private long suiteStartTime;
     private long suiteEndTime;
-    private long testStartTime;
-    private long testEndTime;
     private long beforeAfterDuration = 0;
 
     @Override
     public void onStart(ITestContext context) {
-        suiteStartTime = System.currentTimeMillis();  // Record the start time of the suite
+        suiteStartTime = System.currentTimeMillis();  // Start of the suite
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        testStartTime = System.currentTimeMillis();  // Start time for each test
+        // Initialize individual test start time here if needed
     }
 
     @Override
@@ -50,17 +48,19 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
 
     @Override
     public void onFinish(ITestContext context) {
-        suiteEndTime = System.currentTimeMillis();  // Record the end time of the suite
+        suiteEndTime = System.currentTimeMillis();  // End of the suite
 
         // Create summary data
         Map<String, Object> summary = new HashMap<>();
         summary.put("tests", tests.size());
         summary.put("passed", tests.stream().filter(t -> "passed".equals(t.get("status"))).count());
         summary.put("failed", tests.stream().filter(t -> "failed".equals(t.get("status"))).count());
+        summary.put("pending", 0);  // Placeholder for pending tests
         summary.put("skipped", tests.stream().filter(t -> "skipped".equals(t.get("status"))).count());
+        summary.put("other", 0);  // Placeholder for other statuses
         summary.put("start", suiteStartTime);
         summary.put("stop", suiteEndTime);
-        summary.put("totalTime", suiteEndTime - suiteStartTime + beforeAfterDuration);  // Include total time with setup/teardown
+        summary.put("suites", context.getAllTestMethods().length);
 
         // Build the full report structure
         Map<String, Object> results = new HashMap<>();
@@ -78,29 +78,29 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
         }
     }
 
-    // Tracking setup/teardown times for @BeforeMethod/@AfterMethod
     @Override
     public void beforeConfiguration(ITestResult result) {
-        beforeAfterDuration -= System.currentTimeMillis();
+        beforeAfterDuration -= System.currentTimeMillis();  // Track configuration start time
     }
 
     @Override
     public void onConfigurationSuccess(ITestResult result) {
-        beforeAfterDuration += System.currentTimeMillis();
+        beforeAfterDuration += System.currentTimeMillis();  // Add configuration end time
     }
 
     @Override
     public void onConfigurationFailure(ITestResult result) {
-        beforeAfterDuration += System.currentTimeMillis();
+        beforeAfterDuration += System.currentTimeMillis();  // Add failed configuration time
     }
 
     @Override
     public void onConfigurationSkip(ITestResult result) {
-        beforeAfterDuration += System.currentTimeMillis();
+        beforeAfterDuration += System.currentTimeMillis();  // Add skipped configuration time
     }
 
     private void recordTestResult(ITestResult result, String status) {
-        testEndTime = System.currentTimeMillis();  // End time for each test
+        long testStartTime = result.getStartMillis();
+        long testEndTime = result.getEndMillis();
         Map<String, Object> testDetails = new HashMap<>();
         testDetails.put("name", result.getMethod().getMethodName());
         testDetails.put("status", status);
@@ -108,8 +108,21 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
         testDetails.put("start", testStartTime);
         testDetails.put("stop", testEndTime);
         testDetails.put("rawStatus", status);
+        testDetails.put("tags", new ArrayList<>());  // Placeholder for tags
+        testDetails.put("type", "e2e");
         testDetails.put("filePath", result.getTestClass().getName());
+        testDetails.put("retries", 0);  // Default retries as 0
+        testDetails.put("flaky", false);  // Placeholder for flaky status
+
+        // Add steps if applicable (example steps - replace with actual steps if needed)
+        List<Map<String, String>> steps = new ArrayList<>();
+        steps.add(Map.of("name", "Step 1", "status", "passed"));
+        steps.add(Map.of("name", "Step 2", "status", "passed"));
+        testDetails.put("steps", steps);
+
+        // Suite and extra info
         testDetails.put("suite", result.getTestClass().getName() + " > " + result.getMethod().getMethodName());
+        testDetails.put("extra", Map.of("annotations", new ArrayList<>()));  // Placeholder for annotations
 
         tests.add(testDetails);
     }
