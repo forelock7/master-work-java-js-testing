@@ -1,6 +1,6 @@
-import { UserContext } from '../config/userContext';
-import { Book } from '../models/book';
-import BooksApiSteps from '../steps/api/books/books.api.steps';
+import { UserContext } from '../../config/userContext';
+import { Book } from '../../models/book';
+import BooksApiSteps from '../../steps/api/books/books.api.steps';
 import { v4 as uuid_v4 } from 'uuid';
 
 describe('Create book via API', () => {
