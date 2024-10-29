@@ -78,7 +78,8 @@ jobs:
       - name: Cypress test run
         uses: cypress-io/github-action@v6
         with:
-          start: npx cypress run --spec cypress/e2e/tests/**/*
+#          start: npx cypress run --spec cypress/e2e/tests/**/*
+          spec: cypress/e2e/tests/**/*
           browser: chrome
           publish-summary: false
           working-directory: cypress-project
