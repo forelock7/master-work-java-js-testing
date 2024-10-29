@@ -1,10 +1,10 @@
 name: Sequential tests
 
 on:
-  push:
-    branches: [ "main" ]
-#  pull_request:
+#  push:
 #    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   playwright-tests2:
