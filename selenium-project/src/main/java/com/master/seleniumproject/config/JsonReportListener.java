@@ -1,6 +1,5 @@
 // It was created to generate of CTRF json report for GitHub Actions test summary
 package com.master.seleniumproject.config;
-package com.example.listeners;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.IConfigurationListener;
@@ -26,7 +25,7 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
 
     @Override
     public void onStart(ITestContext context) {
-        suiteStartTime = System.currentTimeMillis();  // Start of the suite
+        suiteStartTime = System.currentTimeMillis();  // Record the start time of the suite
     }
 
     @Override
@@ -51,43 +50,52 @@ public class JsonReportListener implements ITestListener, IConfigurationListener
 
     @Override
     public void onFinish(ITestContext context) {
-        suiteEndTime = System.currentTimeMillis();  // End of the suite
+        suiteEndTime = System.currentTimeMillis();  // Record the end time of the suite
 
         // Create summary data
         Map<String, Object> summary = new HashMap<>();
         summary.put("tests", tests.size());
-        summary.put("passed", tests.stream().filter(t -> t.get("status").equals("passed")).count());
-        summary.put("failed", tests.stream().filter(t -> t.get("status").equals("failed")).count());
-        summary.put("skipped", tests.stream().filter(t -> t.get("status").equals("skipped")).count());
+        summary.put("passed", tests.stream().filter(t -> "passed".equals(t.get("status"))).count());
+        summary.put("failed", tests.stream().filter(t -> "failed".equals(t.get("status"))).count());
+        summary.put("skipped", tests.stream().filter(t -> "skipped".equals(t.get("status"))).count());
         summary.put("start", suiteStartTime);
         summary.put("stop", suiteEndTime);
-        summary.put("totalTime", suiteEndTime - suiteStartTime + beforeAfterDuration);  // Include total time
+        summary.put("totalTime", suiteEndTime - suiteStartTime + beforeAfterDuration);  // Include total time with setup/teardown
 
-        // Build the full report
+        // Build the full report structure
         Map<String, Object> results = new HashMap<>();
         results.put("tool", Map.of("name", "Selenium"));
         results.put("summary", summary);
         results.put("tests", tests);
 
-        // Write to JSON
+        // Write to JSON with specified file name
         ObjectMapper mapper = new ObjectMapper();
         try {
-            mapper.writeValue(new File("target/test-report.json"), Map.of("results", results));
-            System.out.println("Report generated successfully!");
+            mapper.writeValue(new File("target/ctrf-report.json"), Map.of("results", results));
+            System.out.println("Report generated successfully as ctrf-report.json!");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // Tracking setup/teardown times for @BeforeMethod/@AfterMethod
     @Override
     public void beforeConfiguration(ITestResult result) {
-        // Record the start time of each @BeforeMethod or @AfterMethod call
         beforeAfterDuration -= System.currentTimeMillis();
     }
 
     @Override
-    public void afterConfiguration(ITestResult result) {
-        // Add the time of @BeforeMethod or @AfterMethod to the duration
+    public void onConfigurationSuccess(ITestResult result) {
+        beforeAfterDuration += System.currentTimeMillis();
+    }
+
+    @Override
+    public void onConfigurationFailure(ITestResult result) {
+        beforeAfterDuration += System.currentTimeMillis();
+    }
+
+    @Override
+    public void onConfigurationSkip(ITestResult result) {
         beforeAfterDuration += System.currentTimeMillis();
     }
 
