@@ -78,7 +78,7 @@ jobs:
       - name: Cypress test run
         uses: cypress-io/github-action@v6
         with:
-          start: npx cypress run --spec "cypress/e2e/books2/booksAPI.cy.ts,cypress/e2e/books2/booksUI.cy.ts"
+          start: npx cypress run --group --spec "cypress/e2e/books2/**/*.cy.ts"
           browser: chrome
           publish-summary: false
           working-directory: cypress-project
