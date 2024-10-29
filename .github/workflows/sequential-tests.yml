@@ -1,14 +1,13 @@
 name: Sequential tests
 
 on:
-  push:
-    branches: [ "main" ]
-#  pull_request:
+#  push:
 #    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   playwright-tests2:
-    needs: deployTesting
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
@@ -27,7 +26,7 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: playwright-project
       - name: Playwright test run
-        run: npx playwright test
+        run: npx playwright test --project=test2
         working-directory: playwright-project
       - name: Publish summary CTRF report with
         run: npx github-actions-ctrf ctrf-report.json
@@ -41,7 +40,7 @@ jobs:
           retention-days: 30
 
   selenium-tests2:
-    needs: playwright-tests
+    needs: playwright-tests2
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
@@ -58,7 +57,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Selenium test run
-        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng2.xml
         working-directory: selenium-project
       - name: Publish summary CTRF report with
         run: npx github-actions-ctrf ctrf-report.json
@@ -66,7 +65,7 @@ jobs:
         if: always()
 
   cypress-tests2:
-    needs: selenium-tests
+    needs: selenium-tests2
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
@@ -79,7 +78,7 @@ jobs:
       - name: Cypress test run
         uses: cypress-io/github-action@v6
         with:
-          start: npm start
+          spec: cypress/e2e/tests/**/*
           browser: chrome
           publish-summary: false
           working-directory: cypress-project

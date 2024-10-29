@@ -1,9 +1,9 @@
-import LoginPageSteps from '../steps/ui/login/loginPage.steps';
-import { UserContext } from '../config/userContext';
-import { Book } from '../models/book';
-import BookFormSteps from '../steps/ui/books/bookForm.steps';
-import BooksTableSteps from '../steps/ui/books/booksTable.steps';
-import BooksApiSteps from '../steps/api/books/books.api.steps';
+import LoginPageSteps from '../../steps/ui/login/loginPage.steps';
+import { UserContext } from '../../config/userContext';
+import { Book } from '../../models/book';
+import BookFormSteps from '../../steps/ui/books/bookForm.steps';
+import BooksTableSteps from '../../steps/ui/books/booksTable.steps';
+import BooksApiSteps from '../../steps/api/books/books.api.steps';
 import { v4 as uuid_v4 } from 'uuid';
 
 describe('Create book via UI', () => {

@@ -1,7 +1,7 @@
-import { customTest as test } from '@fixtures/customTest.fixture';
-import { BooksApiSteps } from '@steps/api/books.api.steps';
-import { v4 as uuid_v4 } from 'uuid';
-import { Book } from '@models/book';
+import {customTest as test} from '@fixtures/customTest.fixture';
+import {BooksApiSteps} from '@steps/api/books.api.steps';
+import {v4 as uuid_v4} from 'uuid';
+import {Book} from '@models/book';
 
 test.describe('Create book via UI', () => {
     const bookTitle: string = `pw-ui-create-book-${uuid_v4().slice(0, 8)}`;
