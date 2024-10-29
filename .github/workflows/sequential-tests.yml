@@ -40,7 +40,7 @@ jobs:
           retention-days: 30
 
   selenium-tests2:
-    needs: playwright-tests
+    needs: playwright-tests2
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
@@ -65,7 +65,7 @@ jobs:
         if: always()
 
   cypress-tests2:
-    needs: selenium-tests
+    needs: selenium-tests2
     timeout-minutes: 10
     runs-on: ubuntu-latest
     env:
