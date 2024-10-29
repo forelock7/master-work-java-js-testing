@@ -20,23 +20,10 @@ public class BooksApiTest2 {
     private Book newlyUpdatedBook;
     private Book bookToDelete;
 
-    @BeforeMethod
-    public void setUp(ITestResult result) {
-        booksApiSteps = new BooksApiSteps();
-        userContext = new UserContext(USERNAME, PASSWORD);
-        if ("createBookAPI".equals(result.getMethod().getMethodName())) {
-
-        }
-        if ("updateBookAPI".equals(result.getMethod().getMethodName())) {
-
-        }
-        if ("deleteBookAPI".equals(result.getMethod().getMethodName())) {
-
-        }
-    }
-
     @Test
     public void createBookAPI() {
+        booksApiSteps = new BooksApiSteps();
+        userContext = new UserContext(USERNAME, PASSWORD);
         String bookTitle = "se-api-create-book-" + UUID.randomUUID().toString().substring(0, 8);
         bookToCreate = new Book(bookTitle, "George Heineman", "Study", 2021);
 
@@ -48,6 +35,8 @@ public class BooksApiTest2 {
 
     @Test
     public void updateBookAPI() throws Exception {
+        booksApiSteps = new BooksApiSteps();
+        userContext = new UserContext(USERNAME, PASSWORD);
         String bookTitle = "se-api-update-book-" + UUID.randomUUID().toString().substring(0, 8);
         bookToUpdate = new Book(bookTitle, "Markus Eisele, Natale Vinto", "Study", 2023);
         booksApiSteps.createBook(userContext, bookToUpdate);
@@ -63,6 +52,8 @@ public class BooksApiTest2 {
 
     @Test
     public void deleteBookAPI() {
+        booksApiSteps = new BooksApiSteps();
+        userContext = new UserContext(USERNAME, PASSWORD);
         String bookTitle = "se-api-delete-book-" + UUID.randomUUID().toString().substring(0, 8);
         bookToDelete = new Book(bookTitle, "Boni Garcia", "Study", 2022);
         booksApiSteps.createBook(userContext, bookToDelete);
