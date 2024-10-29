@@ -50,10 +50,9 @@ it('Delete book via API', () => {
         year: 2022,
         genre: 'Education',
     };
+    BooksApiSteps.createBook(userContext, book);
 
     BooksApiSteps.verifyBooksArePresent(userContext, [book]);
     BooksApiSteps.deleteBookByTitle(userContext, book.title);
     BooksApiSteps.verifyBooksAreAbsent(userContext, [book]);
-
-    BooksApiSteps.createBook(userContext, book);
 });
