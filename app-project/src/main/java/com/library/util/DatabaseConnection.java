@@ -11,6 +11,7 @@ public class DatabaseConnection {
 
     public static Connection getConnection() {
 
+        // Some changes
         Connection connection = null;
 
         try {
